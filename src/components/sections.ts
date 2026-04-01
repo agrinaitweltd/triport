@@ -364,7 +364,7 @@ export function teamSection(): string {
               <div class="team-photo-wrap">
                 <img class="team-photo" src="${m.image}" alt="${m.name}" loading="lazy" decoding="async" onerror="this.style.display='none'" style="object-position:${i === 0 ? 'top center' : 'center'}" />
               </div>
-              <a href="/#team-${m.slug}" class="team-name-link">
+              <a href="/team-${m.slug}" class="team-name-link">
                 <h3 class="team-name">${m.name}</h3>
               </a>
               <span class="team-role">${m.role}</span>
