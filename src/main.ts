@@ -295,8 +295,8 @@ function wireTeamModal(): void {
     }
   }
 
-  // Auto-open if the URL path matches /team/:slug (Netlify rewrite serves index.html)
-  const pathMatch = window.location.pathname.match(/^\/team\/([^/]+)\/?$/);
+  // Auto-open if the URL path matches /team-:slug (static team pages)
+  const pathMatch = window.location.pathname.match(/^\/team-([^/]+)\/?$/);
   if (pathMatch) {
     const slug = pathMatch[1];
     const idx = members.findIndex(m => m.slug === slug);
@@ -307,7 +307,7 @@ function wireTeamModal(): void {
       const m = members[idx];
       const title = `${m.name} – ${m.role} | Triport Agro International Limited`;
       const desc = m.quote;
-      const url = `https://triportagro.com/team/${m.slug}`;
+      const url = `https://triportagro.com/team-${m.slug}`;
       const img = `https://triportagro.com${m.image}`;
 
       document.title = title;
