@@ -294,6 +294,16 @@ function wireTeamModal(): void {
       openModal(idx);
     }
   }
+
+  // Auto-open if the URL path matches /team/:slug (Netlify rewrite serves index.html)
+  const pathMatch = window.location.pathname.match(/^\/team\/([^/]+)\/?$/);
+  if (pathMatch) {
+    const slug = pathMatch[1];
+    const idx = members.findIndex(m => m.slug === slug);
+    if (idx !== -1) {
+      openModal(idx);
+    }
+  }
 }
 
 function wireScrollShadow(): void {

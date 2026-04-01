@@ -12,6 +12,7 @@ export default defineConfig({
         retail: resolve(__dirname, "retail.html"),
         faq: resolve(__dirname, "faq.html"),
         quote: resolve(__dirname, "quote.html"),
+        process: resolve(__dirname, "process.html"),
       }
     }
   }
