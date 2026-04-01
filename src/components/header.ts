@@ -1,9 +1,9 @@
 export const navItems = [
   { href: "/", label: "Home" },
-  { href: "about", label: "About Us" },
-  { href: "products", label: "Products" },
+  { href: "/about", label: "About Us" },
+  { href: "/products", label: "Products" },
   { href: "/#testimonials", label: "Testimonials" },
-  { href: "quote", label: "Contact" }
+  { href: "/quote", label: "Contact" }
 ];
 
 export function renderHeader(activePage: string): string {
@@ -42,7 +42,7 @@ export function renderHeader(activePage: string): string {
         </nav>
         <div class="nav-end">
           <span class="nav-phone">+256 780 391916</span>
-          <a class="quote-btn" href="quote">Request Quote</a>
+          <a class="quote-btn" href="/quote">Request Quote</a>
         </div>
       </div>
     </header>

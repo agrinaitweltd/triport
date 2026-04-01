@@ -302,6 +302,33 @@ function wireTeamModal(): void {
     const idx = members.findIndex(m => m.slug === slug);
     if (idx !== -1) {
       openModal(idx);
+
+      // Update meta tags so search engines index this profile
+      const m = members[idx];
+      const title = `${m.name} – ${m.role} | Triport Agro International Limited`;
+      const desc = m.quote;
+      const url = `https://triportagro.com/team/${m.slug}`;
+      const img = `https://triportagro.com${m.image}`;
+
+      document.title = title;
+
+      const setMeta = (attr: string, key: string, content: string) => {
+        let el = document.querySelector(`meta[${attr}="${key}"]`) as HTMLMetaElement | null;
+        if (!el) { el = document.createElement("meta"); el.setAttribute(attr, key); document.head.appendChild(el); }
+        el.setAttribute("content", content);
+      };
+
+      setMeta("name", "description", desc);
+      setMeta("property", "og:title", title);
+      setMeta("property", "og:description", desc);
+      setMeta("property", "og:url", url);
+      setMeta("property", "og:image", img);
+      setMeta("name", "twitter:title", title);
+      setMeta("name", "twitter:description", desc);
+      setMeta("name", "twitter:image", img);
+
+      let canonical = document.querySelector("link[rel='canonical']") as HTMLLinkElement | null;
+      if (canonical) canonical.href = url;
     }
   }
 }
