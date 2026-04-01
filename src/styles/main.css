@@ -2326,11 +2326,11 @@ main {
   }
 
   .nav {
-    position: fixed;
-    top: 86px;
+    position: absolute;
+    top: 100%;
     left: 0;
     right: 0;
-    bottom: 0;
+    height: calc(100dvh - 86px);
     background: var(--green-900);
     border-bottom: none;
     padding: 0;

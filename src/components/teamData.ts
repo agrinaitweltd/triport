@@ -28,11 +28,11 @@ Under his leadership, Triport Agro has expanded its export footprint across Euro
   },
   {
     slug: "kaboyo",
-    name: "Kaboyo Ronald Humphreys",
+    name: "Ronald Kaboyo Hamfrey",
     role: "Sales Team Lead",
     qualifications: "B. Social Work and Social Administration",
     image: "/team-kaboyo.png",
-    bio: `Kaboyo Ronald Humphreys leads the sales operations at Triport Agro, leveraging his background in social work and administration to build strong, people-centred client relationships. His approach combines market insight with community engagement to drive consistent revenue growth.
+    bio: `Ronald Kaboyo Hamfrey leads the sales operations at Triport Agro, leveraging his background in social work and administration to build strong, people-centred client relationships. His approach combines market insight with community engagement to drive consistent revenue growth.
 
 He coordinates the sales team's efforts across multiple product lines and export destinations, ensuring targets are met while maintaining the company's commitment to quality service.`,
     responsibilities: [
@@ -46,7 +46,7 @@ He coordinates the sales team's efforts across multiple product lines and export
     slug: "matthew",
     name: "Matthew Atuhairwe",
     role: "Operations Manager",
-    qualifications: "Agricultural Studies",
+    qualifications: "B.Agricultural Studies",
     image: "/team-matthew.png",
     bio: `Matthew Atuhairwe manages the full operations pipeline at Triport Agro, from farm-level sourcing through to export logistics. His agricultural studies background gives him a deep understanding of produce quality, seasonal cycles, and supply chain management.
 
@@ -77,7 +77,7 @@ He works closely with the leadership team to explore new export destinations, pr
   {
     slug: "oliver",
     name: "Oliver Alinaitwe",
-    role: "Chief Information Manager (CIO)",
+    role: "Chief Information Officer (CIO)",
     qualifications: "Studying Information Technology and Business Administration",
     image: "/team-oliver.png",
     bio: `Oliver Alinaitwe oversees all technology and information systems at Triport Agro, ensuring the company's digital infrastructure supports its growing international operations. Currently advancing his studies in IT and Business Administration, he brings a forward-thinking approach to digital transformation.
@@ -90,6 +90,6 @@ He is responsible for the company's online presence, internal systems, data mana
       "Implements systems for order tracking, data management, and operational efficiency",
       "Drives digital strategy and innovation to support business growth"
     ],
-    quote: "Chief Information Manager accountable for technology strategy, digital infrastructure, and innovation at Triport Agro International Limited."
+    quote: "Chief Information Officer accountable for technology strategy, digital infrastructure, and innovation at Triport Agro International Limited."
   }
 ];

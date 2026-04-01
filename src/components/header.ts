@@ -56,9 +56,6 @@ export function enableMobileMenu(): void {
     return;
   }
 
-  // Move nav to body so it escapes the header's backdrop-filter containing block
-  document.body.appendChild(nav);
-
   const closeMenu = () => {
     if (!nav.classList.contains("open")) {
       return;
