@@ -1,8 +1,5 @@
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
-  "cleanUrls": true,
-  "rewrites": [
-    { "source": "/team/:slug", "destination": "/index.html" }
-  ]
+  "cleanUrls": true
 }

@@ -13,6 +13,11 @@ export default defineConfig({
         faq: resolve(__dirname, "faq.html"),
         quote: resolve(__dirname, "quote.html"),
         process: resolve(__dirname, "process.html"),
+        teamMicah: resolve(__dirname, "team/micah.html"),
+        teamKaboyo: resolve(__dirname, "team/kaboyo.html"),
+        teamMatthew: resolve(__dirname, "team/matthew.html"),
+        teamMershack: resolve(__dirname, "team/mershack.html"),
+        teamOliver: resolve(__dirname, "team/oliver.html"),
       }
     }
   }
