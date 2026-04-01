@@ -170,14 +170,7 @@ a {
 }
 
 .hero-mode .nav-link.active::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--green-500);
-  border-radius: 2px;
+  display: none;
 }
 
 .nav-phone {
@@ -2316,11 +2309,6 @@ main {
     gap: 22px;
   }
 
-  /* hide the accessibility icon on small screens to declutter header */
-  .mobile-actions .mobile-icon:first-child {
-    display: none;
-  }
-
   .menu-toggle {
     border: none;
     background: transparent;
@@ -2346,16 +2334,18 @@ main {
     background: var(--green-900);
     border-bottom: none;
     padding: 0;
-    display: none;
+    display: flex;
     flex-direction: column;
     align-items: flex-start;
     overflow-y: auto;
-    z-index: 45;
+    z-index: 9999;
     margin: 0;
     /* animate appearance */
     opacity: 0;
+    visibility: hidden;
     transform: translateY(-6px);
-    transition: opacity 260ms ease, transform 260ms cubic-bezier(.2,.8,.2,1);
+    transition: opacity 260ms ease, transform 260ms cubic-bezier(.2,.8,.2,1), visibility 0s 260ms;
+    pointer-events: none;
   }
 
   .hero-mode .nav {
@@ -2364,9 +2354,11 @@ main {
   }
 
   .nav.open {
-    display: flex;
     opacity: 1;
+    visibility: visible;
     transform: translateY(0);
+    transition: opacity 260ms ease, transform 260ms cubic-bezier(.2,.8,.2,1), visibility 0s;
+    pointer-events: auto;
   }
 
   .nav-link,

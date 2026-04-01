@@ -16,19 +16,19 @@ export function renderFooter(): string {
         </div>
         <div>
           <h4>Quick Links</h4>
-          <a href="about">About Us</a>
-          <a href="products">Export Products</a>
-          <a href="retail">Retail Products</a>
-          <a href="markets">Export Markets</a>
-          <a href="quote">Contact Us</a>
+          <a href="/about">About Us</a>
+          <a href="/products">Export Products</a>
+          <a href="/retail">Retail Products</a>
+          <a href="/markets">Export Markets</a>
+          <a href="/quote">Contact Us</a>
         </div>
         <div>
           <h4>Export Products</h4>
-          <a href="products">Ugandan Coffee</a> 
-          <a href="products">Fresh Fruits</a>
-          <a href="products">Fresh Vegetables</a>
-          <a href="products">Fresh Foods</a>
-          <a href="quote">Request Quote</a>
+          <a href="/products">Ugandan Coffee</a> 
+          <a href="/products">Fresh Fruits</a>
+          <a href="/products">Fresh Vegetables</a>
+          <a href="/products">Fresh Foods</a>
+          <a href="/quote">Request Quote</a>
         </div>
         <div>
           <h4>Contact Us</h4>

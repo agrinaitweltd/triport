@@ -33,7 +33,6 @@ export function renderHeader(activePage: string): string {
           </span>
         </a>
         <div class="mobile-actions">
-          <button class="mobile-icon" type="button" tabindex="-1" aria-label="Accessibility options">♿</button>
           <button class="mobile-icon" id="mobileSearchTrigger" type="button" aria-label="Search products">⌕</button>
         </div>
         <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-controls="mainNav" aria-expanded="false">☰</button>
@@ -56,6 +55,9 @@ export function enableMobileMenu(): void {
   if (!toggle || !nav) {
     return;
   }
+
+  // Move nav to body so it escapes the header's backdrop-filter containing block
+  document.body.appendChild(nav);
 
   const closeMenu = () => {
     if (!nav.classList.contains("open")) {

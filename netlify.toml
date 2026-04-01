@@ -2,12 +2,6 @@
 command = "npm run build"
 publish = "dist"
 
-# Serve home page for /team/* so the team modal can open
-[[redirects]]
-from = "/team/*"
-to = "/index.html"
-status = 200
-
 [[headers]]
 for = "/*"
   [headers.values]

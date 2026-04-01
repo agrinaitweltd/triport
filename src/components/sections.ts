@@ -8,8 +8,8 @@ export function heroSection(): string {
         <h1>Premium Fresh &amp;<br/>Dry Produce,<br/><span class="hero-accent">Sustainably</span><br/>Sourced</h1>
         <p>Connecting Ugandan farmers directly to international markets. We deliver high-quality agricultural products with fair trade practices that empower local communities.</p>
         <div class="cta-row">
-          <a href="products" class="btn btn-primary">Explore Products</a>
-          <a href="quote" class="btn btn-outline">Get a Quote</a>
+          <a href="/products" class="btn btn-primary">Explore Products</a>
+          <a href="/quote" class="btn btn-outline">Get a Quote</a>
         </div>
       </div>
       <div class="container hero-kpis-wrap reveal">
@@ -244,7 +244,7 @@ export function aboutSection(): string {
               <span>Strict Quality Grading</span>
               <span>Export Documentation Support</span>
             </div>
-            <a href="quote" class="btn btn-primary">Request Quote</a>
+            <a href="/quote" class="btn btn-primary">Request Quote</a>
           </div>
           <div class="metrics">
             <div><strong>500+</strong><span>Partner Farmers</span></div>
@@ -271,7 +271,7 @@ export function ctaSection(imageBase = "cta-texture"): string {
             <span>Fast Processing</span>
             <span>Global Delivery</span>
           </div>
-          <a href="quote" class="btn btn-light">Request Export Quote</a>
+          <a href="/quote" class="btn btn-light">Request Export Quote</a>
         </article>
       </div>
     </section>
