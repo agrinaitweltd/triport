@@ -30,7 +30,7 @@ Under his leadership, Triport Agro has expanded its export footprint across Euro
     slug: "kaboyo",
     name: "Ronald Kaboyo Hamfrey",
     role: "Sales Team Lead",
-    qualifications: "B. Social Work and Social Administration",
+    qualifications: "B. Social Work and Social Administration, Uganda Christian University",
     image: "/team-kaboyo.png",
     bio: `Ronald Kaboyo Hamfrey leads the sales operations at Triport Agro, leveraging his background in social work and administration to build strong, people-centred client relationships. His approach combines market insight with community engagement to drive consistent revenue growth.
 
@@ -62,7 +62,7 @@ He ensures that every shipment meets international standards by overseeing quali
     slug: "mershack",
     name: "Manyakozu Mershack Javan",
     role: "Business Development Officer",
-    qualifications: "BA in Development Economics",
+    qualifications: "BA in Development Economics, Makerere University Kampala",
     image: "/team-mershack.png",
     bio: `Manyakozu Mershack Javan drives business development initiatives at Triport Agro, identifying new market opportunities and strategic partnerships. His background in development economics provides a strong analytical foundation for evaluating market trends and commercial viability.
 

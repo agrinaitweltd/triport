@@ -368,7 +368,7 @@ export function teamSection(): string {
                 <h3 class="team-name">${m.name}</h3>
               </a>
               <span class="team-role">${m.role}</span>
-              <span class="team-quals"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> ${m.qualifications}</span>
+              <span class="team-quals"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;flex-shrink:0"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> ${m.qualifications}</span>
               <button type="button" class="team-link" data-team-index="${i}">View Full Profile <span>&rsaquo;</span></button>
             </article>
           `

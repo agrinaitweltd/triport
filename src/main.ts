@@ -248,7 +248,7 @@ function wireTeamModal(): void {
     photoEl.alt = m.name;
     nameEl.textContent = m.name;
     roleEl.textContent = m.role;
-    qualsEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;flex-shrink:0"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> ${m.qualifications}`;
+    qualsEl.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;flex-shrink:0"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> ${m.qualifications}`;
     bodyEl.innerHTML = m.bio.split("\n\n").map(p => `<p>${p}</p>`).join("");
     respEl.innerHTML = m.responsibilities.map(r => `<li>${r}</li>`).join("");
     quoteEl.textContent = m.quote;
