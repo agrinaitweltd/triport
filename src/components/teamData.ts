@@ -78,7 +78,7 @@ He works closely with the leadership team to explore new export destinations, pr
     slug: "oliver",
     name: "Oliver Alinaitwe",
     role: "Chief Information Officer (CIO)",
-    qualifications: "Studying Information Technology and Business Administration",
+    qualifications: "Studying Information Technology and Business Administration, City of London Academy Sixth Form",
     image: "/team-oliver.png",
     bio: `Oliver Alinaitwe oversees all technology and information systems at Triport Agro, ensuring the company's digital infrastructure supports its growing international operations. Currently advancing his studies in IT and Business Administration, he brings a forward-thinking approach to digital transformation.
 
