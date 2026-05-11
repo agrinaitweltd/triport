@@ -1,5 +1,6 @@
 const ADMIN_EMAIL = process.env.QUOTE_ADMIN_EMAIL || "triportagro@gmail.com";
 const FROM_EMAIL = process.env.QUOTE_FROM_EMAIL || "no-reply@triportagro.com";
+const TEST_RECAPTCHA_SECRET_KEY = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
 
 function escapeHtml(input) {
   return String(input)
@@ -19,8 +20,16 @@ function prettyLabel(key) {
     .replace(/^./, (char) => char.toUpperCase());
 }
 
+function formatFieldValue(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => escapeHtml(String(item))).join(", ");
+  }
+
+  return escapeHtml(String(value));
+}
+
 async function verifyRecaptcha(token, remoteIp) {
-  const secret = process.env.RECAPTCHA_SECRET_KEY;
+  const secret = process.env.RECAPTCHA_SECRET_KEY || (process.env.NODE_ENV !== "production" ? TEST_RECAPTCHA_SECRET_KEY : "");
 
   if (!secret) {
     throw new Error("Missing RECAPTCHA_SECRET_KEY environment variable");
@@ -105,10 +114,16 @@ export default async function handler(req, res) {
     }
 
     const entries = Object.entries(fields)
-      .filter(([, value]) => String(value || "").trim().length > 0)
+      .filter(([, value]) => {
+        if (Array.isArray(value)) {
+          return value.length > 0;
+        }
+
+        return String(value || "").trim().length > 0;
+      })
       .map(([key, value]) => ({
         label: prettyLabel(key),
-        value: escapeHtml(String(value))
+        value: formatFieldValue(value)
       }));
 
     const adminRows = entries

@@ -1352,6 +1352,15 @@ main {
   background: #fff;
 }
 
+.quote-form select[multiple] {
+  min-height: 240px;
+  padding: 10px;
+}
+
+.quote-form select[multiple] option {
+  padding: 7px 9px;
+}
+
 .contact-system-section {
   background:
     radial-gradient(1100px 420px at 8% -14%, rgba(61, 186, 84, 0.11), transparent 58%),
@@ -1583,6 +1592,13 @@ main {
   font-size: 1rem;
 }
 
+.multi-select-hint {
+  margin: -2px 0 0;
+  color: #6e756f;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
 .contact-faq-mini {
   margin-top: 18px;
   border: 1px solid #d7e6d0;
@@ -1624,9 +1640,18 @@ main {
 }
 
 .grecaptcha-badge {
+  position: fixed !important;
   right: 14px !important;
   bottom: 14px !important;
+  left: auto !important;
   z-index: 80;
+  transform: scale(0.92);
+  transform-origin: bottom right;
+  transition: transform 0.18s ease, opacity 0.18s ease;
+}
+
+.grecaptcha-badge:hover {
+  transform: scale(1);
 }
 
 @media (max-width: 1040px) {

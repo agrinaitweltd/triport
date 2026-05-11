@@ -105,9 +105,12 @@ function wireQuoteForm(): void {
 
   const statusEl = document.getElementById("quoteFormStatus") as HTMLParagraphElement | null;
   const submitBtn = document.getElementById("quoteSubmitBtn") as HTMLButtonElement | null;
+  const isLocalHost = ["localhost", "127.0.0.1", "::1"].includes(window.location.hostname);
+  const testRecaptchaSiteKey = "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI";
 
   const recaptchaSiteKey =
-    (import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined) || "6LeqveQsAAAAAPI0BHdk-4BuZIIbGIKglMmTR-f2";
+    (isLocalHost ? testRecaptchaSiteKey : (import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined)) ||
+    "6LeqveQsAAAAAPI0BHdk-4BuZIIbGIKglMmTR-f2";
   let recaptchaReady = false;
 
   const regionRow = document.getElementById("regionRow") as HTMLDivElement | null;
@@ -138,14 +141,12 @@ function wireQuoteForm(): void {
   };
 
   const gradeOptions: Record<string, string[]> = {
-    "coffee-arabica": ["AA", "A", "AB", "PB", "Specialty Microlot"],
-    "coffee-robusta": ["Screen 18", "Screen 15", "FAQ", "Clean Cup"],
-    "coffee-specialty": ["Washed", "Natural", "Honey Process", "Single Origin"],
-    avocado: ["Hass Grade A", "Hass Grade B", "Fuerte"],
-    mango: ["Kent", "Keitt", "Apple Mango"],
-    sesame: ["99.95% purity", "99.5% purity", "Conventional"],
-    maize: ["Grade 1", "Grade 2"],
-    beans: ["Red Kidney", "Sugar Beans", "Navy Beans"]
+    coffee: ["AA", "A", "AB", "PB", "Screen 18", "Screen 15", "Specialty Grade", "Microlot", "FAQ", "Clean Cup"],
+    fruits: ["Export Grade", "Class I", "Class II", "Premium", "Size 4", "Size 5", "Size 6", "Ready to Ship"],
+    grains: ["Grade 1", "Grade 2", "Grade 3", "Cleaned", "Sorted", "Hand Picked", "Food Grade", "Moisture 12%", "Moisture 14%"],
+    spices: ["Grade A", "Grade B", "Whole", "Ground", "Cleaned", "Sorted", "Food Grade", "Export Grade"],
+    oils: ["Crude", "Refined", "Cold Pressed", "Virgin", "Food Grade", "Industrial Grade", "Organic", "Premium"],
+    other: ["Export Grade", "Premium", "Standard", "Bulk"]
   };
 
   const setFieldsetState = (root: HTMLElement, disabled: boolean) => {
@@ -253,15 +254,36 @@ function wireQuoteForm(): void {
         return;
       }
 
+      const buildGrades = (categories: string[]): string[] => {
+        const uniqueGrades = new Set<string>();
+
+        categories.forEach((category) => {
+          const options = gradeOptions[category] || gradeOptions.other;
+          options.forEach((item) => uniqueGrades.add(item));
+        });
+
+        if (!uniqueGrades.size) {
+          gradeOptions.other.forEach((item) => uniqueGrades.add(item));
+        }
+
+        return Array.from(uniqueGrades);
+      };
+
       const updateGrade = () => {
-        const options = gradeOptions[productSelect.value] || [];
-        const hasOptions = options.length > 0;
-        gradeWrap.style.display = hasOptions ? "grid" : "none";
-        gradeSelect.disabled = !hasOptions;
+        const selectedCategories = Array.from(productSelect.selectedOptions).map((option) => option.dataset.gradeCategory || "other");
+        const selectedGrades = Array.from(gradeSelect.selectedOptions).map((option) => option.value);
+        const nextGrades = buildGrades(selectedCategories);
+
+        gradeWrap.style.display = selectedCategories.length > 0 ? "grid" : "none";
+        gradeSelect.disabled = selectedCategories.length === 0;
         gradeSelect.required = false;
-        gradeSelect.innerHTML = `<option value="">Select grade...</option>${options
+        gradeSelect.innerHTML = `<option value="">Select grade...</option>${nextGrades
           .map((item) => `<option value="${item.toLowerCase().replace(/\s+/g, "-")}">${item}</option>`)
           .join("")}`;
+
+        Array.from(gradeSelect.options).forEach((option) => {
+          option.selected = selectedGrades.includes(option.value);
+        });
       };
 
       productSelect.addEventListener("change", updateGrade);
@@ -354,12 +376,19 @@ function wireQuoteForm(): void {
     }
 
     const fd = new FormData(form);
-    const fields: Record<string, string> = {};
+    const fields: Record<string, string | string[]> = {};
 
     fd.forEach((value, key) => {
       const text = String(value).trim();
       if (text) {
-        fields[key] = text;
+        const existing = fields[key];
+        if (Array.isArray(existing)) {
+          existing.push(text);
+        } else if (typeof existing === "string") {
+          fields[key] = [existing, text];
+        } else {
+          fields[key] = text;
+        }
       }
     });
 

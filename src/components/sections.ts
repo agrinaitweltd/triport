@@ -333,7 +333,7 @@ export function testimonialsSection(): string {
             .map(
               (entry) => `
             <article class="testimonial-card reveal">
-              <div class="stars" aria-label="5 star rating">★★★★★</div>
+              <div class="stars" aria-label="5 star rating">*****</div>
               <p class="testimonial-quote">"${entry[1]}"</p>
               <h3>${entry[0]}</h3>
             </article>
@@ -440,6 +440,86 @@ export function faqSection(): string {
 }
 
 export function quoteSection(): string {
+  const broadProductGroups: Array<[string, string, string[]]> = [
+    ["coffee", "Coffee", ["Arabica Coffee", "Robusta Coffee", "Specialty / Single Origin Coffee", "Green Coffee (Generic)"]],
+    ["fruits", "Fresh Fruits", ["Avocados", "Mangoes", "Pineapples", "Bananas / Plantain", "Passion Fruit", "Jackfruit", "Papaya / Pawpaw", "Oranges", "Lemons / Limes", "Watermelon"]],
+    ["grains", "Grains, Seeds & Legumes", ["Maize / Corn", "Sorghum", "Millet (Finger / Pearl)", "Sesame Seeds", "Beans / Pulses", "Groundnuts / Peanuts", "Cowpeas", "Soybeans", "Rice", "Wheat", "Barley", "Lentils", "Chia Seeds"]],
+    ["spices", "Spices & Botanicals", ["Vanilla", "Ginger", "Turmeric", "Chilli Peppers", "Coriander Seeds", "Moringa", "Cardamom", "Black Pepper", "Cinnamon"]],
+    ["oils", "Oils & Other", ["Shea Butter / Shea Nuts", "Sunflower Seeds / Oil", "Palm Oil (Crude)", "Cassava / Tapioca", "Sweet Potato", "Green Plantain", "Cocoa Beans", "Tea (Black / Green)", "Macadamia Nuts", "Cashew Nuts", "Other / Mixed"]]
+  ];
+
+  const broadProductOptions = broadProductGroups
+    .map(
+      ([category, group, items]) => `
+        <optgroup label="${group}">
+          ${items.map((item) => `<option value="${item.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "")}" data-grade-category="${category}">${item}</option>`).join("")}
+        </optgroup>
+      `
+    )
+    .join("");
+
+  const broadGradeOptions = ["AA", "A", "AB", "PB", "Screen 18", "Screen 15", "FAQ", "Clean Cup", "Specialty Grade", "Grade 1", "Grade 2", "Premium", "Export Grade"]
+    .map((item) => `<option value="${item.toLowerCase().replace(/\s+/g, "-")}">${item}</option>`)
+    .join("");
+
+  const countryOptions = [
+    ["Uganda", "uganda"],
+    ["Kenya", "kenya"],
+    ["Tanzania", "tanzania"],
+    ["Rwanda", "rwanda"],
+    ["Burundi", "burundi"],
+    ["Ethiopia", "ethiopia"],
+    ["Zambia", "zambia"],
+    ["Zimbabwe", "zimbabwe"],
+    ["South Africa", "south-africa"],
+    ["Nigeria", "nigeria"],
+    ["Ghana", "ghana"],
+    ["Senegal", "senegal"],
+    ["Benin", "benin"],
+    ["Togo", "togo"],
+    ["Morocco", "morocco"],
+    ["Egypt", "egypt"],
+    ["Algeria", "algeria"],
+    ["United Arab Emirates", "uae"],
+    ["Saudi Arabia", "saudi-arabia"],
+    ["Qatar", "qatar"],
+    ["Kuwait", "kuwait"],
+    ["Oman", "oman"],
+    ["United Kingdom", "united-kingdom"],
+    ["France", "france"],
+    ["Germany", "germany"],
+    ["Italy", "italy"],
+    ["Netherlands", "netherlands"],
+    ["Spain", "spain"],
+    ["United States of America", "usa"],
+    ["Canada", "canada"],
+    ["Australia", "australia"],
+    ["India", "india"],
+    ["China", "china"],
+    ["Japan", "japan"],
+    ["South Korea", "south-korea"],
+    ["Singapore", "singapore"],
+    ["Malaysia", "malaysia"],
+    ["Vietnam", "vietnam"],
+    ["Turkey", "turkey"],
+    ["Brazil", "brazil"],
+    ["Mexico", "mexico"],
+    ["Argentina", "argentina"]
+  ]
+    .map(([label, value]) => `<option value="${value}">${label}</option>`)
+    .join("");
+
+  const renderSelect = (id: string, name: string, label: string, gradeId: string, gradeName: string) => `
+    <div class="product-picker">
+      <label class="form-group">${label} *
+        <select id="${id}" name="${name}" class="product-select" multiple required size="10">${broadProductOptions}</select>
+      </label>
+      <label class="form-group" id="${gradeId}-wrap" style="display:none;">Grade / Quality
+        <select id="${gradeId}" name="${gradeName}" class="grade-select" multiple size="6">${broadGradeOptions}</select>
+      </label>
+    </div>
+  `;
+
   return `
     <section class="section white-bg contact-system-section">
       <div class="container">
@@ -475,155 +555,33 @@ export function quoteSection(): string {
                 <label class="form-group">Country *
                   <select id="country" name="country" required>
                     <option value="" selected>Where are you based?</option>
-                    <option value="uganda">Uganda</option>
-                    <option value="kenya">Kenya</option>
-                    <option value="tanzania">Tanzania</option>
-                    <option value="rwanda">Rwanda</option>
-                    <option value="ethiopia">Ethiopia</option>
-                    <option value="united-kingdom">United Kingdom</option>
-                    <option value="usa">United States of America</option>
+                    ${countryOptions}
                     <option value="other">Other</option>
                   </select>
                 </label>
-              </div>
-
-              <div id="regionRow" style="display:none;">
-                <div class="form-row">
-                  <label class="form-group">State / County *
-                    <select id="stateSelect" name="state">
-                      <option value="">Select state or county...</option>
-                    </select>
-                  </label>
-                  <label class="form-group">Region / District *
-                    <select id="regionSelect" name="region">
-                      <option value="">Select region or district...</option>
-                    </select>
-                  </label>
-                </div>
-                <div class="form-row">
-                  <label class="form-group">City *
-                    <select id="citySelect" name="city">
-                      <option value="">Select city...</option>
-                    </select>
-                  </label>
-                  <label class="form-group">Town *
-                    <select id="townSelect" name="town">
-                      <option value="">Select town...</option>
-                    </select>
-                  </label>
-                </div>
               </div>
 
               <div class="form-group biz-type-group full">
                 <label class="biz-type-label">What best describes you? *</label>
                 <p class="biz-type-hint">We will tailor your enquiry fields to your business profile.</p>
                 <div class="biz-type-grid" id="bizTypeGrid">
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="farmer" required />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 1 7 7c0 4-3.5 8-7 11-3.5-3-7-7-7-11a7 7 0 0 1 7-7z"/><circle cx="12" cy="10" r="2.2"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Farmer / Producer</span>
-                      <span class="biz-card-sub">I grow produce &amp; want to supply Triport</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="cooperative" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3.3 2.9-6 6.5-6S16 16.7 16 20"/><path d="M20 20c0-2.2-1.3-4-3.2-5"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Farming Cooperative</span>
-                      <span class="biz-card-sub">Group of farmers seeking an export partner</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="wholesale" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v4"/><path d="M10 14h4"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Wholesale / Distributor</span>
-                      <span class="biz-card-sub">Bulk buyer distributing to other businesses</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="importer" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/><path d="M4 20h16"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Import Buyer</span>
-                      <span class="biz-card-sub">Buying produce directly for operations</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="exporter" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/><path d="M4 4h16"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">International Exporter</span>
-                      <span class="biz-card-sub">Moving produce to international markets</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="retailer" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M8 10a4 4 0 0 0 8 0"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Retailer / Food Service</span>
-                      <span class="biz-card-sub">Supermarket, restaurant, hotel, catering</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="manufacturer" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V11l5-3v3l5-3v3l5-3v12z"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Food Manufacturer</span>
-                      <span class="biz-card-sub">Processing raw agricultural products</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="trader" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M4 10h16v4H4z"/><path d="M4 16h16v4H4z"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Commodity Trader / Broker</span>
-                      <span class="biz-card-sub">Trading agricultural commodities on markets</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="logistics" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Freight / Logistics</span>
-                      <span class="biz-card-sub">Looking to partner on shipping &amp; logistics</span>
-                    </span>
-                  </label>
-                  <label class="biz-card">
-                    <input type="radio" name="businessType" value="other" />
-                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg></span>
-                    <span>
-                      <span class="biz-card-title">Other / General</span>
-                      <span class="biz-card-sub">Something else — just get in touch</span>
-                    </span>
-                  </label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="farmer" required /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 1 7 7c0 4-3.5 8-7 11-3.5-3-7-7-7-11a7 7 0 0 1 7-7z"/><circle cx="12" cy="10" r="2.2"/></svg></span><span><span class="biz-card-title">Farmer / Producer</span><span class="biz-card-sub">I grow produce and want to supply Triport</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="cooperative" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3.3 2.9-6 6.5-6S16 16.7 16 20"/><path d="M20 20c0-2.2-1.3-4-3.2-5"/></svg></span><span><span class="biz-card-title">Farming Cooperative</span><span class="biz-card-sub">Group of farmers seeking an export partner</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="wholesale" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v4"/><path d="M10 14h4"/></svg></span><span><span class="biz-card-title">Wholesale / Distributor</span><span class="biz-card-sub">Bulk buyer distributing to other businesses</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="importer" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/><path d="M4 20h16"/></svg></span><span><span class="biz-card-title">Import Buyer</span><span class="biz-card-sub">Buying produce directly for operations</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="exporter" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/><path d="M4 4h16"/></svg></span><span><span class="biz-card-title">International Exporter</span><span class="biz-card-sub">Moving produce to international markets</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="retailer" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M8 10a4 4 0 0 0 8 0"/></svg></span><span><span class="biz-card-title">Retailer / Food Service</span><span class="biz-card-sub">Supermarket, restaurant, hotel, catering</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="manufacturer" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V11l5-3v3l5-3v3l5-3v12z"/></svg></span><span><span class="biz-card-title">Food Manufacturer</span><span class="biz-card-sub">Processing raw agricultural products</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="trader" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M4 10h16v4H4z"/><path d="M4 16h16v4H4z"/></svg></span><span><span class="biz-card-title">Commodity Trader / Broker</span><span class="biz-card-sub">Trading agricultural commodities on markets</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="logistics" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span><span><span class="biz-card-title">Freight / Logistics</span><span class="biz-card-sub">Looking to partner on shipping and logistics</span></span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="other" /><span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg></span><span><span class="biz-card-title">Other / General</span><span class="biz-card-sub">Something else - just get in touch</span></span></label>
                 </div>
+                <p class="multi-select-hint">Hold Ctrl on Windows or Cmd on Mac to select more than one product or grade.</p>
               </div>
 
               <div id="fields-farmer" class="conditional-fields full" style="display:none;">
                 <div class="conditional-header"><span>Tell us about your farm</span></div>
-                <div class="product-picker">
-                  <label class="form-group">Primary Crop *
-                    <select id="f-product" name="farmerProduct" class="product-select" required>
-                      <option value="">Select primary crop...</option>
-                      <option value="coffee-arabica">Arabica Coffee</option>
-                      <option value="coffee-robusta">Robusta Coffee</option>
-                      <option value="coffee-specialty">Specialty Coffee</option>
-                      <option value="sesame">Sesame Seeds</option>
-                      <option value="maize">Maize / Corn</option>
-                      <option value="beans">Beans / Pulses</option>
-                      <option value="avocado">Avocados</option>
-                      <option value="mango">Mangoes</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label class="form-group" id="f-grade-wrap" style="display:none;">Variety / Type
-                    <select id="f-grade" name="farmerGrade" class="grade-select">
-                      <option value="">Select variety...</option>
-                    </select>
-                  </label>
-                </div>
+                ${renderSelect("f-product", "farmerProduct", "Primary Crop", "f-grade", "farmerGrade")}
                 <div class="form-row">
                   <label class="form-group">Farm Size *<input type="text" name="farmSize" placeholder="e.g. 10 hectares" required /></label>
                   <label class="form-group">Years Farming *<input type="number" name="farmYears" min="0" placeholder="e.g. 8" required /></label>
@@ -636,42 +594,12 @@ export function quoteSection(): string {
                   <label class="form-group">Farmers in Cooperative *<input type="text" name="coopMembers" placeholder="e.g. 120" required /></label>
                   <label class="form-group">Total Land<input type="text" name="coopLand" placeholder="e.g. 500 hectares" /></label>
                 </div>
-                <div class="product-picker">
-                  <label class="form-group">Primary Produce *
-                    <select id="c-product" name="coopProduct" class="product-select" required>
-                      <option value="">Select product...</option>
-                      <option value="coffee-arabica">Arabica Coffee</option>
-                      <option value="coffee-robusta">Robusta Coffee</option>
-                      <option value="sesame">Sesame Seeds</option>
-                      <option value="maize">Maize / Corn</option>
-                      <option value="beans">Beans / Pulses</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label class="form-group" id="c-grade-wrap" style="display:none;">Variety / Type
-                    <select id="c-grade" name="coopGrade" class="grade-select"><option value="">Select variety...</option></select>
-                  </label>
-                </div>
+                ${renderSelect("c-product", "coopProduct", "Primary Produce", "c-grade", "coopGrade")}
               </div>
 
               <div id="fields-wholesale" class="conditional-fields full" style="display:none;">
                 <div class="conditional-header"><span>Your wholesale requirements</span></div>
-                <div class="product-picker">
-                  <label class="form-group">Product of Interest *
-                    <select id="w-product" name="wholesaleProduct" class="product-select" required>
-                      <option value="">Select product...</option>
-                      <option value="coffee-arabica">Arabica Coffee</option>
-                      <option value="coffee-robusta">Robusta Coffee</option>
-                      <option value="avocado">Avocados</option>
-                      <option value="mango">Mangoes</option>
-                      <option value="sesame">Sesame Seeds</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label class="form-group" id="w-grade-wrap" style="display:none;">Grade / Quality
-                    <select id="w-grade" name="wholesaleGrade" class="grade-select"><option value="">Select grade...</option></select>
-                  </label>
-                </div>
+                ${renderSelect("w-product", "wholesaleProduct", "Product of Interest", "w-grade", "wholesaleGrade")}
                 <div class="form-row">
                   <label class="form-group">Monthly Volume *<input type="text" name="wholesaleVolume" placeholder="e.g. 5 tonnes / month" required /></label>
                   <label class="form-group">Order Frequency
@@ -687,47 +615,17 @@ export function quoteSection(): string {
 
               <div id="fields-importer" class="conditional-fields full" style="display:none;">
                 <div class="conditional-header"><span>Your import requirements</span></div>
-                <div class="product-picker">
-                  <label class="form-group">Product Required *
-                    <select id="i-product" name="importProduct" class="product-select" required>
-                      <option value="">Select product...</option>
-                      <option value="coffee-arabica">Arabica Coffee</option>
-                      <option value="coffee-robusta">Robusta Coffee</option>
-                      <option value="sesame">Sesame Seeds</option>
-                      <option value="avocado">Avocados</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label class="form-group" id="i-grade-wrap" style="display:none;">Grade / Quality
-                    <select id="i-grade" name="importGrade" class="grade-select"><option value="">Select grade...</option></select>
-                  </label>
-                </div>
+                ${renderSelect("i-product", "importProduct", "Product Required", "i-grade", "importGrade")}
                 <div class="form-row">
                   <label class="form-group">Order Volume *<input type="text" name="importVolume" placeholder="e.g. 1 x 40ft / month" required /></label>
-                  <label class="form-group">Port of Entry<input type="text" name="importPort" placeholder="e.g. Felixstowe" /></label>
                 </div>
               </div>
 
               <div id="fields-exporter" class="conditional-fields full" style="display:none;">
                 <div class="conditional-header"><span>Your export requirements</span></div>
-                <div class="product-picker">
-                  <label class="form-group">Product to Source *
-                    <select id="ex-product" name="exportProduct" class="product-select" required>
-                      <option value="">Select product...</option>
-                      <option value="coffee-arabica">Arabica Coffee</option>
-                      <option value="coffee-robusta">Robusta Coffee</option>
-                      <option value="maize">Maize / Corn</option>
-                      <option value="beans">Beans / Pulses</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label class="form-group" id="ex-grade-wrap" style="display:none;">Grade / Quality
-                    <select id="ex-grade" name="exportGrade" class="grade-select"><option value="">Select grade...</option></select>
-                  </label>
-                </div>
+                ${renderSelect("ex-product", "exportProduct", "Product to Source", "ex-grade", "exportGrade")}
                 <div class="form-row">
                   <label class="form-group">Destination Markets *<input type="text" name="exportDestination" placeholder="e.g. Germany, UAE" required /></label>
-                  <label class="form-group">Required Volume<input type="text" name="exportVolume" placeholder="e.g. 2 containers / quarter" /></label>
                 </div>
               </div>
 
@@ -745,21 +643,7 @@ export function quoteSection(): string {
                   </label>
                   <label class="form-group">Locations<input type="text" name="retailLocations" placeholder="e.g. 12 stores" /></label>
                 </div>
-                <div class="product-picker">
-                  <label class="form-group">Product of Interest *
-                    <select id="r-product" name="retailProduct" class="product-select" required>
-                      <option value="">Select product...</option>
-                      <option value="coffee-arabica">Arabica Coffee</option>
-                      <option value="coffee-robusta">Robusta Coffee</option>
-                      <option value="avocado">Avocados</option>
-                      <option value="mango">Mangoes</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label class="form-group" id="r-grade-wrap" style="display:none;">Grade / Quality
-                    <select id="r-grade" name="retailGrade" class="grade-select"><option value="">Select grade...</option></select>
-                  </label>
-                </div>
+                ${renderSelect("r-product", "retailProduct", "Product of Interest", "r-grade", "retailGrade")}
               </div>
 
               <div id="fields-manufacturer" class="conditional-fields full" style="display:none;">
@@ -776,40 +660,12 @@ export function quoteSection(): string {
                   </label>
                   <label class="form-group">Monthly Requirement<input type="text" name="mfrVolume" placeholder="e.g. 20 tonnes / month" /></label>
                 </div>
-                <div class="product-picker">
-                  <label class="form-group">Raw Material *
-                    <select id="m-product" name="mfrRawMaterial" class="product-select" required>
-                      <option value="">Select raw material...</option>
-                      <option value="coffee-arabica">Arabica Coffee</option>
-                      <option value="coffee-robusta">Robusta Coffee</option>
-                      <option value="sesame">Sesame Seeds</option>
-                      <option value="maize">Maize / Corn</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label class="form-group" id="m-grade-wrap" style="display:none;">Grade / Quality
-                    <select id="m-grade" name="mfrGrade" class="grade-select"><option value="">Select grade...</option></select>
-                  </label>
-                </div>
+                ${renderSelect("m-product", "mfrRawMaterial", "Raw Material", "m-grade", "mfrGrade")}
               </div>
 
               <div id="fields-trader" class="conditional-fields full" style="display:none;">
                 <div class="conditional-header"><span>Your trading profile</span></div>
-                <div class="product-picker">
-                  <label class="form-group">Commodity *
-                    <select id="t-product" name="traderProduct" class="product-select" required>
-                      <option value="">Select commodity...</option>
-                      <option value="coffee-arabica">Arabica Coffee</option>
-                      <option value="coffee-robusta">Robusta Coffee</option>
-                      <option value="sesame">Sesame Seeds</option>
-                      <option value="beans">Beans / Pulses</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </label>
-                  <label class="form-group" id="t-grade-wrap" style="display:none;">Grade / Quality
-                    <select id="t-grade" name="traderGrade" class="grade-select"><option value="">Select grade...</option></select>
-                  </label>
-                </div>
+                ${renderSelect("t-product", "traderProduct", "Commodity", "t-grade", "traderGrade")}
                 <div class="form-row">
                   <label class="form-group">Markets<input type="text" name="traderMarkets" placeholder="e.g. EU, East Africa" /></label>
                   <label class="form-group">Price Terms
@@ -878,41 +734,26 @@ export function quoteSection(): string {
             <div class="contact-info-list">
               <div class="contact-info-item">
                 <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
-                <div>
-                  <h4>Office Location</h4>
-                  <p>Uganda<br />(Registered Office - Details available on request)</p>
-                </div>
+                <div><h4>Office Location</h4><p>Uganda<br />(Registered Office - Details available on request)</p></div>
               </div>
               <div class="contact-info-item">
                 <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
-                <div>
-                  <h4>Email</h4>
-                  <p>triportago@gmail.com</p>
-                </div>
+                <div><h4>Email</h4><p>triportago@gmail.com</p></div>
               </div>
               <div class="contact-info-item">
                 <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
-                <div>
-                  <h4>Phone / WhatsApp</h4>
-                  <p>+256 780 391916</p>
-                </div>
+                <div><h4>Phone / WhatsApp</h4><p>+256 780 391916</p></div>
               </div>
               <div class="contact-info-item">
                 <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
-                <div>
-                  <h4>Business Hours</h4>
-                  <p>Monday - Friday: 9:00am - 5:30pm (EAT)</p>
-                </div>
+                <div><h4>Business Hours</h4><p>Monday - Friday: 9:00am - 5:30pm (EAT)</p></div>
               </div>
             </div>
             <div class="contact-faq-mini">
               <h4>East Africa Operations</h4>
               <div class="contact-info-item east-africa-card">
                 <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a14.5 14.5 0 0 0 0 18a14.5 14.5 0 0 0 0-18"/><path d="M3 12h18"/></svg></div>
-                <div>
-                  <h4>Head Office</h4>
-                  <p>Sourcing &amp; Operations Team<br />Uganda, East Africa<br />(Available for inquiries)</p>
-                </div>
+                <div><h4>Head Office</h4><p>Sourcing &amp; Operations Team<br />Uganda, East Africa<br />(Available for inquiries)</p></div>
               </div>
             </div>
           </aside>
