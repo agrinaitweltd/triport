@@ -4,9 +4,8 @@ import { renderFooter } from "./components/footer";
 import { wireAutoAssets } from "./components/assetResolver";
 
 type RecaptchaApi = {
-  render: (container: string | HTMLElement, parameters: { sitekey: string; theme?: "light" | "dark" }) => number;
-  getResponse: (widgetId?: number) => string;
-  reset: (widgetId?: number) => void;
+  ready: (callback: () => void) => void;
+  execute: (siteKey: string, options: { action: string }) => Promise<string>;
 };
 
 declare global {
@@ -106,11 +105,10 @@ function wireQuoteForm(): void {
 
   const statusEl = document.getElementById("quoteFormStatus") as HTMLParagraphElement | null;
   const submitBtn = document.getElementById("quoteSubmitBtn") as HTMLButtonElement | null;
-  const recaptchaHost = document.getElementById("recaptchaWidget") as HTMLDivElement | null;
 
   const recaptchaSiteKey =
     (import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined) || "6LeqveQsAAAAAPI0BHdk-4BuZIIbGIKglMmTR-f2";
-  let recaptchaWidgetId: number | null = null;
+  let recaptchaReady = false;
 
   const regionRow = document.getElementById("regionRow") as HTMLDivElement | null;
   const country = document.getElementById("country") as HTMLSelectElement | null;
@@ -289,23 +287,16 @@ function wireQuoteForm(): void {
   };
 
   const loadRecaptcha = async (): Promise<void> => {
-    if (!recaptchaHost) {
-      return;
-    }
-
     const existingApi = window.grecaptcha as RecaptchaApi | undefined;
 
     if (existingApi) {
-      recaptchaWidgetId = existingApi.render(recaptchaHost, {
-        sitekey: recaptchaSiteKey,
-        theme: "light"
-      });
+      recaptchaReady = true;
       return;
     }
 
     await new Promise<void>((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "https://www.google.com/recaptcha/api.js?render=explicit";
+      script.src = `https://www.google.com/recaptcha/api.js?render=${encodeURIComponent(recaptchaSiteKey)}`;
       script.async = true;
       script.defer = true;
       script.onload = () => resolve();
@@ -319,10 +310,18 @@ function wireQuoteForm(): void {
       throw new Error("reCAPTCHA is unavailable");
     }
 
-    recaptchaWidgetId = loadedApi.render(recaptchaHost, {
-      sitekey: recaptchaSiteKey,
-      theme: "light"
-    });
+    recaptchaReady = true;
+  };
+
+  const getRecaptchaToken = async (): Promise<string> => {
+    const recaptchaApi = window.grecaptcha as RecaptchaApi | undefined;
+
+    if (!recaptchaApi || !recaptchaReady) {
+      throw new Error("reCAPTCHA is still loading. Please wait a moment and try again.");
+    }
+
+    await new Promise<void>((resolve) => recaptchaApi.ready(() => resolve()));
+    return recaptchaApi.execute(recaptchaSiteKey, { action: "quote_submit" });
   };
 
   country?.addEventListener("change", handleCountry);
@@ -344,17 +343,13 @@ function wireQuoteForm(): void {
       return;
     }
 
-    const recaptchaApi = window.grecaptcha as RecaptchaApi | undefined;
+    let recaptchaToken = "";
 
-    if (!recaptchaApi || recaptchaWidgetId === null) {
-      setStatus("reCAPTCHA is still loading. Please wait a moment and try again.", "error");
-      return;
-    }
-
-    const recaptchaToken = recaptchaApi.getResponse(recaptchaWidgetId);
-
-    if (!recaptchaToken) {
-      setStatus("Please complete the reCAPTCHA challenge.", "error");
+    try {
+      recaptchaToken = await getRecaptchaToken();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Could not load reCAPTCHA. Please refresh and try again.";
+      setStatus(message, "error");
       return;
     }
 
@@ -397,7 +392,6 @@ function wireQuoteForm(): void {
       form.reset();
       handleBusinessType();
       handleCountry();
-      recaptchaApi.reset(recaptchaWidgetId);
     } catch (error) {
       const message = error instanceof Error ? error.message : "We could not send your enquiry. Please try again.";
       setStatus(message, "error");

@@ -864,10 +864,6 @@ export function quoteSection(): string {
                 </label>
               </div>
 
-              <div class="captcha-row full">
-                <div id="recaptchaWidget" class="recaptcha-widget"></div>
-              </div>
-
               <p id="quoteFormStatus" class="quote-form-status" role="status" aria-live="polite"></p>
 
               <button type="submit" class="btn btn-primary full" id="quoteSubmitBtn">Send Enquiry</button>

@@ -1608,14 +1608,6 @@ main {
   background: #e7f4ea;
 }
 
-.captcha-row {
-  margin-top: 2px;
-}
-
-.recaptcha-widget {
-  min-height: 78px;
-}
-
 .quote-form-status {
   margin: 0;
   min-height: 1.2rem;
@@ -1629,6 +1621,12 @@ main {
 
 .quote-form-status.is-error {
   color: #b42318;
+}
+
+.grecaptcha-badge {
+  right: 14px !important;
+  bottom: 14px !important;
+  z-index: 80;
 }
 
 @media (max-width: 1040px) {
