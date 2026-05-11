@@ -523,7 +523,7 @@ export function quoteSection(): string {
                     <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 1 7 7c0 4-3.5 8-7 11-3.5-3-7-7-7-11a7 7 0 0 1 7-7z"/><circle cx="12" cy="10" r="2.2"/></svg></span>
                     <span>
                       <span class="biz-card-title">Farmer / Producer</span>
-                      <span class="biz-card-sub">I grow produce &amp; want to supply Kabalega</span>
+                      <span class="biz-card-sub">I grow produce &amp; want to supply Triport</span>
                     </span>
                   </label>
                   <label class="biz-card">
@@ -864,13 +864,20 @@ export function quoteSection(): string {
                 </label>
               </div>
 
-              <button type="submit" class="btn btn-primary full">Send Enquiry</button>
+              <div class="captcha-row full">
+                <div id="recaptchaWidget" class="recaptcha-widget"></div>
+              </div>
+
+              <p id="quoteFormStatus" class="quote-form-status" role="status" aria-live="polite"></p>
+
+              <button type="submit" class="btn btn-primary full" id="quoteSubmitBtn">Send Enquiry</button>
             </form>
           </div>
 
           <aside class="contact-info-panel">
             <span class="section-label contact-panel-label">Our Details</span>
-            <h3>Kabalega Coffee Establishment</h3>
+            <img src="/logo-tripport.png" alt="Triport Agro International Limited" class="contact-panel-logo" loading="lazy" decoding="async" />
+            <h3>Triport Agro International Limited</h3>
             <p>Uganda-based exporters of premium specialty and commercial coffee, serving importers and roasters worldwide.</p>
             <div class="contact-info-list">
               <div class="contact-info-item">

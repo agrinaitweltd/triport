@@ -3,6 +3,18 @@ import { enableMobileMenu, enableMobileProductSearch, renderHeader } from "./com
 import { renderFooter } from "./components/footer";
 import { wireAutoAssets } from "./components/assetResolver";
 
+type RecaptchaApi = {
+  render: (container: string | HTMLElement, parameters: { sitekey: string; theme?: "light" | "dark" }) => number;
+  getResponse: (widgetId?: number) => string;
+  reset: (widgetId?: number) => void;
+};
+
+declare global {
+  interface Window {
+    grecaptcha?: RecaptchaApi;
+  }
+}
+
 export function mountPage(activePage: string, body: string, afterMain?: string): void {
   const app = document.querySelector<HTMLDivElement>("#app");
 
@@ -91,6 +103,14 @@ function wireQuoteForm(): void {
   const form = document.getElementById("quoteForm") as HTMLFormElement | null;
 
   if (!form) return;
+
+  const statusEl = document.getElementById("quoteFormStatus") as HTMLParagraphElement | null;
+  const submitBtn = document.getElementById("quoteSubmitBtn") as HTMLButtonElement | null;
+  const recaptchaHost = document.getElementById("recaptchaWidget") as HTMLDivElement | null;
+
+  const recaptchaSiteKey =
+    (import.meta.env.VITE_RECAPTCHA_SITE_KEY as string | undefined) || "6LeqveQsAAAAAPI0BHdk-4BuZIIbGIKglMmTR-f2";
+  let recaptchaWidgetId: number | null = null;
 
   const regionRow = document.getElementById("regionRow") as HTMLDivElement | null;
   const country = document.getElementById("country") as HTMLSelectElement | null;
@@ -251,68 +271,57 @@ function wireQuoteForm(): void {
     });
   };
 
-  const buildMessage = (data: FormData) => {
-    const lines: string[] = [];
-    const first = String(data.get("firstName") || "").trim();
-    const last = String(data.get("lastName") || "").trim();
-    const fullName = `${first} ${last}`.trim();
+  const setStatus = (message: string, tone: "idle" | "ok" | "error" = "idle") => {
+    if (!statusEl) {
+      return;
+    }
 
-    lines.push(`Contact enquiry from ${fullName || "Website Visitor"}`);
+    statusEl.textContent = message;
+    statusEl.classList.remove("is-ok", "is-error");
 
-    data.forEach((value, key) => {
-      const v = String(value).trim();
-      if (!v) {
-        return;
-      }
+    if (tone === "ok") {
+      statusEl.classList.add("is-ok");
+    }
 
-      lines.push(`${key}: ${v}`);
-    });
-
-    return lines.join("\n");
+    if (tone === "error") {
+      statusEl.classList.add("is-error");
+    }
   };
 
-  const openChoiceModal = (bodyText: string) => {
-    const overlay = document.createElement("div");
-    overlay.className = "choice-overlay";
-    overlay.innerHTML = `
-      <div class="choice-card" role="dialog" aria-modal="true">
-        <h3>Send quote via</h3>
-        <p>Choose how you'd like to send this request to Triport Agro International Limited.</p>
-        <div class="choice-actions">
-          <button id="choiceEmail" class="btn btn-primary">Email</button>
-          <button id="choiceWhatsapp" class="btn btn-light">WhatsApp</button>
-          <button id="choiceCancel" class="btn btn-outline">Cancel</button>
-        </div>
-      </div>
-    `;
+  const loadRecaptcha = async (): Promise<void> => {
+    if (!recaptchaHost) {
+      return;
+    }
 
-    document.body.appendChild(overlay);
+    const existingApi = window.grecaptcha as RecaptchaApi | undefined;
 
-    const cleanup = () => overlay.remove();
+    if (existingApi) {
+      recaptchaWidgetId = existingApi.render(recaptchaHost, {
+        sitekey: recaptchaSiteKey,
+        theme: "light"
+      });
+      return;
+    }
 
-    const emailBtn = document.getElementById("choiceEmail");
-    const waBtn = document.getElementById("choiceWhatsapp");
-    const cancelBtn = document.getElementById("choiceCancel");
-
-    emailBtn?.addEventListener("click", () => {
-      const to = "triportago@gmail.com";
-      const subject = `Contact enquiry from ${encodeURIComponent((bodyText.split("\n")[0] || "").replace("Contact enquiry from ", ""))}`;
-      const body = encodeURIComponent(bodyText);
-      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
-      cleanup();
+    await new Promise<void>((resolve, reject) => {
+      const script = document.createElement("script");
+      script.src = "https://www.google.com/recaptcha/api.js?render=explicit";
+      script.async = true;
+      script.defer = true;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error("Failed to load reCAPTCHA"));
+      document.head.appendChild(script);
     });
 
-    waBtn?.addEventListener("click", () => {
-      // Use international format without + and spaces for wa.me
-      const phone = "256780391916";
-      const text = encodeURIComponent(bodyText);
-      const url = `https://wa.me/${phone}?text=${text}`;
-      window.open(url, "_blank");
-      cleanup();
-    });
+    const loadedApi = window.grecaptcha as RecaptchaApi | undefined;
 
-    cancelBtn?.addEventListener("click", () => {
-      cleanup();
+    if (!loadedApi) {
+      throw new Error("reCAPTCHA is unavailable");
+    }
+
+    recaptchaWidgetId = loadedApi.render(recaptchaHost, {
+      sitekey: recaptchaSiteKey,
+      theme: "light"
     });
   };
 
@@ -322,17 +331,82 @@ function wireQuoteForm(): void {
   wireProductGrades();
   handleCountry();
   handleBusinessType();
+  setStatus("");
 
-  form.addEventListener("submit", (e) => {
+  void loadRecaptcha().catch(() => {
+    setStatus("Could not load reCAPTCHA. Please refresh and try again.", "error");
+  });
+
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
     if (!form.reportValidity()) {
       return;
     }
 
+    const recaptchaApi = window.grecaptcha as RecaptchaApi | undefined;
+
+    if (!recaptchaApi || recaptchaWidgetId === null) {
+      setStatus("reCAPTCHA is still loading. Please wait a moment and try again.", "error");
+      return;
+    }
+
+    const recaptchaToken = recaptchaApi.getResponse(recaptchaWidgetId);
+
+    if (!recaptchaToken) {
+      setStatus("Please complete the reCAPTCHA challenge.", "error");
+      return;
+    }
+
     const fd = new FormData(form);
-    const body = buildMessage(fd);
-    openChoiceModal(body);
+    const fields: Record<string, string> = {};
+
+    fd.forEach((value, key) => {
+      const text = String(value).trim();
+      if (text) {
+        fields[key] = text;
+      }
+    });
+
+    submitBtn?.setAttribute("disabled", "true");
+    if (submitBtn) {
+      submitBtn.textContent = "Sending...";
+    }
+    setStatus("Sending your enquiry...");
+
+    try {
+      const response = await fetch("/api/quote", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          fields,
+          recaptchaToken,
+          source: window.location.href
+        })
+      });
+
+      const result = (await response.json().catch(() => ({}))) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(result.message || "We could not send your enquiry. Please try again.");
+      }
+
+      setStatus("Thanks. Your enquiry was sent successfully. A confirmation email is on its way.", "ok");
+      form.reset();
+      handleBusinessType();
+      handleCountry();
+      recaptchaApi.reset(recaptchaWidgetId);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "We could not send your enquiry. Please try again.";
+      setStatus(message, "error");
+    } finally {
+      submitBtn?.removeAttribute("disabled");
+      if (submitBtn) {
+        submitBtn.textContent = "Send Enquiry";
+      }
+    }
   });
 }
 
