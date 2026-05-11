@@ -92,20 +92,183 @@ function wireQuoteForm(): void {
 
   if (!form) return;
 
-  const buildMessage = (data: FormData) => {
-    const name = data.get("name") || "";
-    const email = data.get("email") || "";
-    const phone = data.get("phone") || "";
-    const country = data.get("country") || "";
-    const products = data.get("product") || "";
-    const other = data.get("other_product") || "";
-    const quantity = data.get("quantity") || "";
-    const packaging = data.get("packaging") || "";
-    const port = data.get("port") || "";
-    const container = data.get("container") || "";
-    const message = data.get("message") || "";
+  const regionRow = document.getElementById("regionRow") as HTMLDivElement | null;
+  const country = document.getElementById("country") as HTMLSelectElement | null;
+  const stateSelect = document.getElementById("stateSelect") as HTMLSelectElement | null;
+  const regionSelect = document.getElementById("regionSelect") as HTMLSelectElement | null;
+  const citySelect = document.getElementById("citySelect") as HTMLSelectElement | null;
+  const townSelect = document.getElementById("townSelect") as HTMLSelectElement | null;
+  const commonFields = document.getElementById("commonFields") as HTMLDivElement | null;
+  const budgetGroup = document.getElementById("budgetGroup") as HTMLLabelElement | null;
 
-    return `Quote request from ${name}\nEmail: ${email}\nPhone: ${phone}\nDestination country: ${country}\nProducts: ${products}${other ? `, Other: ${other}` : ""}\nQuantity: ${quantity}\nPackaging: ${packaging}\nPort: ${port}\nContainer: ${container}\n\nDetails:\n${message}`;
+  const typeRadios = Array.from(form.querySelectorAll<HTMLInputElement>('input[name="businessType"]'));
+  const conditionalBlocks = Array.from(form.querySelectorAll<HTMLElement>(".conditional-fields"));
+
+  const locationData: Record<string, { states: string[]; regions: string[]; cities: string[]; towns: string[] }> = {
+    uganda: {
+      states: ["Central", "Western", "Eastern", "Northern"],
+      regions: ["Kampala", "Wakiso", "Mbarara", "Gulu", "Mbale", "Arua"],
+      cities: ["Kampala", "Entebbe", "Mbarara", "Gulu", "Jinja"],
+      towns: ["Ntinda", "Mukono", "Kasese", "Fort Portal", "Lira"]
+    },
+    kenya: {
+      states: ["Nairobi", "Mombasa", "Kiambu", "Nakuru"],
+      regions: ["Nairobi County", "Mombasa County", "Kisumu County", "Uasin Gishu"],
+      cities: ["Nairobi", "Mombasa", "Kisumu", "Nakuru"],
+      towns: ["Westlands", "Thika", "Eldoret", "Naivasha"]
+    }
+  };
+
+  const gradeOptions: Record<string, string[]> = {
+    "coffee-arabica": ["AA", "A", "AB", "PB", "Specialty Microlot"],
+    "coffee-robusta": ["Screen 18", "Screen 15", "FAQ", "Clean Cup"],
+    "coffee-specialty": ["Washed", "Natural", "Honey Process", "Single Origin"],
+    avocado: ["Hass Grade A", "Hass Grade B", "Fuerte"],
+    mango: ["Kent", "Keitt", "Apple Mango"],
+    sesame: ["99.95% purity", "99.5% purity", "Conventional"],
+    maize: ["Grade 1", "Grade 2"],
+    beans: ["Red Kidney", "Sugar Beans", "Navy Beans"]
+  };
+
+  const setFieldsetState = (root: HTMLElement, disabled: boolean) => {
+    root.querySelectorAll<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>("input, select, textarea").forEach((el) => {
+      if (el.name === "businessType") {
+        return;
+      }
+
+      if (disabled) {
+        el.dataset.wasRequired = el.required ? "1" : "0";
+        el.required = false;
+        el.disabled = true;
+      } else {
+        el.disabled = false;
+        if (el.dataset.wasRequired === "1") {
+          el.required = true;
+        }
+      }
+    });
+  };
+
+  const setOptions = (select: HTMLSelectElement | null, options: string[], placeholder: string) => {
+    if (!select) {
+      return;
+    }
+
+    select.innerHTML = `<option value="">${placeholder}</option>${options
+      .map((item) => `<option value="${item.toLowerCase().replace(/\s+/g, "-")}">${item}</option>`)
+      .join("")}`;
+  };
+
+  const handleCountry = () => {
+    if (!country || !regionRow) {
+      return;
+    }
+
+    const key = country.value;
+    const shouldShowRegion = key === "uganda" || key === "kenya";
+    regionRow.style.display = shouldShowRegion ? "block" : "none";
+
+    const regionFields = [stateSelect, regionSelect, citySelect, townSelect];
+
+    if (!shouldShowRegion) {
+      regionFields.forEach((field) => {
+        if (!field) {
+          return;
+        }
+
+        field.required = false;
+        field.disabled = true;
+        field.innerHTML = `<option value="">Select...</option>`;
+      });
+      return;
+    }
+
+    const data = locationData[key] || locationData.uganda;
+    setOptions(stateSelect, data.states, "Select state or county...");
+    setOptions(regionSelect, data.regions, "Select region or district...");
+    setOptions(citySelect, data.cities, "Select city...");
+    setOptions(townSelect, data.towns, "Select town...");
+
+    regionFields.forEach((field) => {
+      if (!field) {
+        return;
+      }
+
+      field.required = true;
+      field.disabled = false;
+    });
+  };
+
+  const handleBusinessType = () => {
+    const selected = typeRadios.find((radio) => radio.checked)?.value;
+
+    conditionalBlocks.forEach((block) => {
+      const isMatch = block.id === `fields-${selected}`;
+      block.style.display = isMatch ? "block" : "none";
+      setFieldsetState(block, !isMatch);
+    });
+
+    if (commonFields) {
+      const showCommon = Boolean(selected);
+      commonFields.style.display = showCommon ? "block" : "none";
+      setFieldsetState(commonFields, !showCommon);
+    }
+
+    if (budgetGroup) {
+      const showBudget = selected !== "farmer" && selected !== "cooperative" && Boolean(selected);
+      budgetGroup.style.display = showBudget ? "grid" : "none";
+      const budgetSelect = budgetGroup.querySelector<HTMLSelectElement>("select");
+      if (budgetSelect) {
+        budgetSelect.disabled = !showBudget;
+      }
+    }
+  };
+
+  const wireProductGrades = () => {
+    const pickers = Array.from(form.querySelectorAll<HTMLElement>(".product-picker"));
+    pickers.forEach((picker) => {
+      const productSelect = picker.querySelector<HTMLSelectElement>(".product-select");
+      const gradeSelect = picker.querySelector<HTMLSelectElement>(".grade-select");
+      const gradeWrap = gradeSelect?.closest<HTMLElement>(".form-group");
+
+      if (!productSelect || !gradeSelect || !gradeWrap) {
+        return;
+      }
+
+      const updateGrade = () => {
+        const options = gradeOptions[productSelect.value] || [];
+        const hasOptions = options.length > 0;
+        gradeWrap.style.display = hasOptions ? "grid" : "none";
+        gradeSelect.disabled = !hasOptions;
+        gradeSelect.required = false;
+        gradeSelect.innerHTML = `<option value="">Select grade...</option>${options
+          .map((item) => `<option value="${item.toLowerCase().replace(/\s+/g, "-")}">${item}</option>`)
+          .join("")}`;
+      };
+
+      productSelect.addEventListener("change", updateGrade);
+      updateGrade();
+    });
+  };
+
+  const buildMessage = (data: FormData) => {
+    const lines: string[] = [];
+    const first = String(data.get("firstName") || "").trim();
+    const last = String(data.get("lastName") || "").trim();
+    const fullName = `${first} ${last}`.trim();
+
+    lines.push(`Contact enquiry from ${fullName || "Website Visitor"}`);
+
+    data.forEach((value, key) => {
+      const v = String(value).trim();
+      if (!v) {
+        return;
+      }
+
+      lines.push(`${key}: ${v}`);
+    });
+
+    return lines.join("\n");
   };
 
   const openChoiceModal = (bodyText: string) => {
@@ -133,7 +296,7 @@ function wireQuoteForm(): void {
 
     emailBtn?.addEventListener("click", () => {
       const to = "triportago@gmail.com";
-      const subject = `Quote request from ${encodeURIComponent((bodyText.split('\n')[0] || '').replace('Quote request from ', ''))}`;
+      const subject = `Contact enquiry from ${encodeURIComponent((bodyText.split("\n")[0] || "").replace("Contact enquiry from ", ""))}`;
       const body = encodeURIComponent(bodyText);
       window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
       cleanup();
@@ -153,8 +316,20 @@ function wireQuoteForm(): void {
     });
   };
 
+  country?.addEventListener("change", handleCountry);
+  typeRadios.forEach((radio) => radio.addEventListener("change", handleBusinessType));
+
+  wireProductGrades();
+  handleCountry();
+  handleBusinessType();
+
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+
+    if (!form.reportValidity()) {
+      return;
+    }
+
     const fd = new FormData(form);
     const body = buildMessage(fd);
     openChoiceModal(body);

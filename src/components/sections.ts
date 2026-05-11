@@ -440,154 +440,389 @@ export function faqSection(): string {
 }
 
 export function quoteSection(): string {
-  const steps = [
-    ["1", "Quotation Review", "We review your request details, product selection, quantity, and destination requirements."],
-    ["2", "Offer & Confirmation", "We send a structured quotation with pricing, packaging options, and shipping terms."],
-    ["3", "Preparation & Documentation", "After confirmation, we prepare products, quality checks, and export documentation."],
-    ["4", "Dispatch & Updates", "Your shipment is dispatched and we share status updates until delivery." ]
-  ];
-
   return `
-    <section class="section white-bg">
+    <section class="section white-bg contact-system-section">
       <div class="container">
         <div class="section-head reveal">
-          <h2>Ready to Export to Your Market?</h2>
-          <p>Submit your requirements and receive a professional export quotation tailored to your market, packaging, and logistics needs.</p>
+          <h2>Get In Touch</h2>
+          <p>Questions about our products or export process? Share your details and we will respond within one business day.</p>
         </div>
-        <div class="quote-grid reveal">
-          <div class="quote-image-wrap">
-            <img src="/contact.png" alt="Contact Triport Agro International Limited" class="contact-image" onerror="this.style.display='none'" />
-            <div class="contact-image-caption">
-              <h3>Professional Export Support</h3>
-              <p>From inquiry to shipment, our team coordinates quality, documentation, and logistics end to end.</p>
+        <div class="contact-grid reveal">
+          <div class="contact-form-wrapper">
+            <form class="quote-form contact-system-form" id="quoteForm" novalidate>
+              <div class="form-row">
+                <label class="form-group">First Name *
+                  <input type="text" name="firstName" placeholder="John" required />
+                </label>
+                <label class="form-group">Last Name *
+                  <input type="text" name="lastName" placeholder="Smith" required />
+                </label>
+              </div>
+
+              <div class="form-row">
+                <label class="form-group">Email Address *
+                  <input type="email" name="email" placeholder="john@yourcompany.com" required />
+                </label>
+                <label class="form-group">Phone / WhatsApp *
+                  <input type="tel" name="phone" placeholder="+256 700 000000" required />
+                </label>
+              </div>
+
+              <div class="form-row">
+                <label class="form-group">Company / Organisation
+                  <input type="text" name="company" placeholder="Your Company Ltd" />
+                </label>
+                <label class="form-group">Country *
+                  <select id="country" name="country" required>
+                    <option value="" selected>Where are you based?</option>
+                    <option value="uganda">Uganda</option>
+                    <option value="kenya">Kenya</option>
+                    <option value="tanzania">Tanzania</option>
+                    <option value="rwanda">Rwanda</option>
+                    <option value="ethiopia">Ethiopia</option>
+                    <option value="united-kingdom">United Kingdom</option>
+                    <option value="usa">United States of America</option>
+                    <option value="other">Other</option>
+                  </select>
+                </label>
+              </div>
+
+              <div id="regionRow" style="display:none;">
+                <div class="form-row">
+                  <label class="form-group">State / County *
+                    <select id="stateSelect" name="state">
+                      <option value="">Select state or county...</option>
+                    </select>
+                  </label>
+                  <label class="form-group">Region / District *
+                    <select id="regionSelect" name="region">
+                      <option value="">Select region or district...</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="form-row">
+                  <label class="form-group">City *
+                    <select id="citySelect" name="city">
+                      <option value="">Select city...</option>
+                    </select>
+                  </label>
+                  <label class="form-group">Town *
+                    <select id="townSelect" name="town">
+                      <option value="">Select town...</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group biz-type-group full">
+                <label class="biz-type-label">What best describes you? *</label>
+                <p class="biz-type-hint">We will tailor your enquiry fields to your business profile.</p>
+                <div class="biz-type-grid" id="bizTypeGrid">
+                  <label class="biz-card"><input type="radio" name="businessType" value="farmer" required /><span class="biz-card-title">Farmer / Producer</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="cooperative" /><span class="biz-card-title">Farming Cooperative</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="wholesale" /><span class="biz-card-title">Wholesale / Distributor</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="importer" /><span class="biz-card-title">Importer / Buyer</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="exporter" /><span class="biz-card-title">International Exporter</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="retailer" /><span class="biz-card-title">Retailer / Food Service</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="manufacturer" /><span class="biz-card-title">Food Manufacturer</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="trader" /><span class="biz-card-title">Commodity Trader</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="logistics" /><span class="biz-card-title">Freight / Logistics</span></label>
+                  <label class="biz-card"><input type="radio" name="businessType" value="other" /><span class="biz-card-title">Other / General</span></label>
+                </div>
+              </div>
+
+              <div id="fields-farmer" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Tell us about your farm</span></div>
+                <div class="product-picker">
+                  <label class="form-group">Primary Crop *
+                    <select id="f-product" name="farmerProduct" class="product-select" required>
+                      <option value="">Select primary crop...</option>
+                      <option value="coffee-arabica">Arabica Coffee</option>
+                      <option value="coffee-robusta">Robusta Coffee</option>
+                      <option value="coffee-specialty">Specialty Coffee</option>
+                      <option value="sesame">Sesame Seeds</option>
+                      <option value="maize">Maize / Corn</option>
+                      <option value="beans">Beans / Pulses</option>
+                      <option value="avocado">Avocados</option>
+                      <option value="mango">Mangoes</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="f-grade-wrap" style="display:none;">Variety / Type
+                    <select id="f-grade" name="farmerGrade" class="grade-select">
+                      <option value="">Select variety...</option>
+                    </select>
+                  </label>
+                </div>
+                <div class="form-row">
+                  <label class="form-group">Farm Size *<input type="text" name="farmSize" placeholder="e.g. 10 hectares" required /></label>
+                  <label class="form-group">Years Farming *<input type="number" name="farmYears" min="0" placeholder="e.g. 8" required /></label>
+                </div>
+              </div>
+
+              <div id="fields-cooperative" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Tell us about your cooperative</span></div>
+                <div class="form-row">
+                  <label class="form-group">Farmers in Cooperative *<input type="text" name="coopMembers" placeholder="e.g. 120" required /></label>
+                  <label class="form-group">Total Land<input type="text" name="coopLand" placeholder="e.g. 500 hectares" /></label>
+                </div>
+                <div class="product-picker">
+                  <label class="form-group">Primary Produce *
+                    <select id="c-product" name="coopProduct" class="product-select" required>
+                      <option value="">Select product...</option>
+                      <option value="coffee-arabica">Arabica Coffee</option>
+                      <option value="coffee-robusta">Robusta Coffee</option>
+                      <option value="sesame">Sesame Seeds</option>
+                      <option value="maize">Maize / Corn</option>
+                      <option value="beans">Beans / Pulses</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="c-grade-wrap" style="display:none;">Variety / Type
+                    <select id="c-grade" name="coopGrade" class="grade-select"><option value="">Select variety...</option></select>
+                  </label>
+                </div>
+              </div>
+
+              <div id="fields-wholesale" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Your wholesale requirements</span></div>
+                <div class="product-picker">
+                  <label class="form-group">Product of Interest *
+                    <select id="w-product" name="wholesaleProduct" class="product-select" required>
+                      <option value="">Select product...</option>
+                      <option value="coffee-arabica">Arabica Coffee</option>
+                      <option value="coffee-robusta">Robusta Coffee</option>
+                      <option value="avocado">Avocados</option>
+                      <option value="mango">Mangoes</option>
+                      <option value="sesame">Sesame Seeds</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="w-grade-wrap" style="display:none;">Grade / Quality
+                    <select id="w-grade" name="wholesaleGrade" class="grade-select"><option value="">Select grade...</option></select>
+                  </label>
+                </div>
+                <div class="form-row">
+                  <label class="form-group">Monthly Volume *<input type="text" name="wholesaleVolume" placeholder="e.g. 5 tonnes / month" required /></label>
+                  <label class="form-group">Order Frequency
+                    <select name="wholesaleFrequency">
+                      <option value="">Select...</option>
+                      <option value="weekly">Weekly</option>
+                      <option value="monthly">Monthly</option>
+                      <option value="quarterly">Quarterly</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div id="fields-importer" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Your import requirements</span></div>
+                <div class="product-picker">
+                  <label class="form-group">Product Required *
+                    <select id="i-product" name="importProduct" class="product-select" required>
+                      <option value="">Select product...</option>
+                      <option value="coffee-arabica">Arabica Coffee</option>
+                      <option value="coffee-robusta">Robusta Coffee</option>
+                      <option value="sesame">Sesame Seeds</option>
+                      <option value="avocado">Avocados</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="i-grade-wrap" style="display:none;">Grade / Quality
+                    <select id="i-grade" name="importGrade" class="grade-select"><option value="">Select grade...</option></select>
+                  </label>
+                </div>
+                <div class="form-row">
+                  <label class="form-group">Order Volume *<input type="text" name="importVolume" placeholder="e.g. 1 x 40ft / month" required /></label>
+                  <label class="form-group">Port of Entry<input type="text" name="importPort" placeholder="e.g. Felixstowe" /></label>
+                </div>
+              </div>
+
+              <div id="fields-exporter" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Your export requirements</span></div>
+                <div class="product-picker">
+                  <label class="form-group">Product to Source *
+                    <select id="ex-product" name="exportProduct" class="product-select" required>
+                      <option value="">Select product...</option>
+                      <option value="coffee-arabica">Arabica Coffee</option>
+                      <option value="coffee-robusta">Robusta Coffee</option>
+                      <option value="maize">Maize / Corn</option>
+                      <option value="beans">Beans / Pulses</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="ex-grade-wrap" style="display:none;">Grade / Quality
+                    <select id="ex-grade" name="exportGrade" class="grade-select"><option value="">Select grade...</option></select>
+                  </label>
+                </div>
+                <div class="form-row">
+                  <label class="form-group">Destination Markets *<input type="text" name="exportDestination" placeholder="e.g. Germany, UAE" required /></label>
+                  <label class="form-group">Required Volume<input type="text" name="exportVolume" placeholder="e.g. 2 containers / quarter" /></label>
+                </div>
+              </div>
+
+              <div id="fields-retailer" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Your retail / food service needs</span></div>
+                <div class="form-row">
+                  <label class="form-group">Business Type *
+                    <select name="retailType" required>
+                      <option value="">Select...</option>
+                      <option value="supermarket">Supermarket / Grocery</option>
+                      <option value="restaurant">Restaurant / Cafe</option>
+                      <option value="hotel">Hotel / Hospitality</option>
+                      <option value="online">Online Food Retail</option>
+                    </select>
+                  </label>
+                  <label class="form-group">Locations<input type="text" name="retailLocations" placeholder="e.g. 12 stores" /></label>
+                </div>
+                <div class="product-picker">
+                  <label class="form-group">Product of Interest *
+                    <select id="r-product" name="retailProduct" class="product-select" required>
+                      <option value="">Select product...</option>
+                      <option value="coffee-arabica">Arabica Coffee</option>
+                      <option value="coffee-robusta">Robusta Coffee</option>
+                      <option value="avocado">Avocados</option>
+                      <option value="mango">Mangoes</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="r-grade-wrap" style="display:none;">Grade / Quality
+                    <select id="r-grade" name="retailGrade" class="grade-select"><option value="">Select grade...</option></select>
+                  </label>
+                </div>
+              </div>
+
+              <div id="fields-manufacturer" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Your raw material requirements</span></div>
+                <div class="form-row">
+                  <label class="form-group">What do you manufacture? *
+                    <select name="mfrProduct" required>
+                      <option value="">Select...</option>
+                      <option value="roasted-coffee">Roasted / Ground Coffee</option>
+                      <option value="fruit-juice">Fruit Juice / Concentrate</option>
+                      <option value="flour-starch">Flour / Starch Products</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group">Monthly Requirement<input type="text" name="mfrVolume" placeholder="e.g. 20 tonnes / month" /></label>
+                </div>
+                <div class="product-picker">
+                  <label class="form-group">Raw Material *
+                    <select id="m-product" name="mfrRawMaterial" class="product-select" required>
+                      <option value="">Select raw material...</option>
+                      <option value="coffee-arabica">Arabica Coffee</option>
+                      <option value="coffee-robusta">Robusta Coffee</option>
+                      <option value="sesame">Sesame Seeds</option>
+                      <option value="maize">Maize / Corn</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="m-grade-wrap" style="display:none;">Grade / Quality
+                    <select id="m-grade" name="mfrGrade" class="grade-select"><option value="">Select grade...</option></select>
+                  </label>
+                </div>
+              </div>
+
+              <div id="fields-trader" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Your trading profile</span></div>
+                <div class="product-picker">
+                  <label class="form-group">Commodity *
+                    <select id="t-product" name="traderProduct" class="product-select" required>
+                      <option value="">Select commodity...</option>
+                      <option value="coffee-arabica">Arabica Coffee</option>
+                      <option value="coffee-robusta">Robusta Coffee</option>
+                      <option value="sesame">Sesame Seeds</option>
+                      <option value="beans">Beans / Pulses</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="t-grade-wrap" style="display:none;">Grade / Quality
+                    <select id="t-grade" name="traderGrade" class="grade-select"><option value="">Select grade...</option></select>
+                  </label>
+                </div>
+                <div class="form-row">
+                  <label class="form-group">Markets<input type="text" name="traderMarkets" placeholder="e.g. EU, East Africa" /></label>
+                  <label class="form-group">Price Terms
+                    <select name="traderTerms">
+                      <option value="">Select...</option>
+                      <option value="fob">FOB</option>
+                      <option value="cif">CIF</option>
+                      <option value="spot">Spot</option>
+                    </select>
+                  </label>
+                </div>
+              </div>
+
+              <div id="fields-logistics" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Logistics partnership details</span></div>
+                <div class="form-row">
+                  <label class="form-group">Services Offered *<input type="text" name="logisticsServices" placeholder="e.g. FCL, customs clearance" required /></label>
+                  <label class="form-group">Routes Covered<input type="text" name="logisticsRoutes" placeholder="e.g. Mombasa to Rotterdam" /></label>
+                </div>
+              </div>
+
+              <div id="fields-other" class="conditional-fields full" style="display:none;">
+                <div class="conditional-header"><span>Your enquiry</span></div>
+                <label class="form-group">How can we help? *
+                  <textarea name="otherEnquiry" rows="5" placeholder="Tell us about your enquiry" required></textarea>
+                </label>
+              </div>
+
+              <div id="commonFields" class="full" style="display:none;">
+                <div class="form-row">
+                  <label class="form-group">Timeline *
+                    <select name="timeline" required>
+                      <option value="">When do you need this?</option>
+                      <option value="urgent">Urgent (within 2 weeks)</option>
+                      <option value="1-2mo">1-2 months</option>
+                      <option value="2-6mo">2-6 months</option>
+                      <option value="longterm">Long term / ongoing</option>
+                    </select>
+                  </label>
+                  <label class="form-group" id="budgetGroup" style="display:none;">Estimated Budget
+                    <select name="budget">
+                      <option value="">Select range...</option>
+                      <option value="under-5k">Under GBP 5,000</option>
+                      <option value="5k-20k">GBP 5,000 - GBP 20,000</option>
+                      <option value="20k-50k">GBP 20,000 - GBP 50,000</option>
+                      <option value="over-50k">Over GBP 50,000</option>
+                    </select>
+                  </label>
+                </div>
+                <label class="form-group">Anything else we should know? *
+                  <textarea name="message" rows="4" placeholder="Add any extra context or requirements" required></textarea>
+                </label>
+              </div>
+
+              <button type="submit" class="btn btn-primary full">Send Enquiry</button>
+            </form>
+          </div>
+
+          <aside class="contact-info-panel">
+            <h3>Triport Agro International Limited</h3>
+            <p>Uganda-based exporters of premium specialty and commercial produce, serving importers and food businesses worldwide.</p>
+            <div class="contact-info-list">
+              <div class="contact-info-item">
+                <h4>Email</h4>
+                <p>triportago@gmail.com</p>
+              </div>
+              <div class="contact-info-item">
+                <h4>Phone / WhatsApp</h4>
+                <p>+256 780 391916</p>
+              </div>
+              <div class="contact-info-item">
+                <h4>Business Hours</h4>
+                <p>Monday - Friday: 9:00am - 5:30pm (EAT)</p>
+              </div>
             </div>
-          </div>
-          <form class="quote-form" id="quoteForm">
-            <label>Full Name<input name="name" type="text" placeholder="Your full name" required /></label>
-            <label>Email Address<input name="email" type="email" placeholder="you@company.com" required /></label>
-            <label>Phone Number<input name="phone" type="text" placeholder="+256 7xx xxx xxx" /></label>
-            <label>Destination Country<input name="country" type="text" placeholder="Destination country" required /></label>
-
-            <label>Product Interest
-              <select name="product" required>
-                <option value="">Select a product</option>
-                <optgroup label="1. Coffee &amp; Beverage Crops">
-                  <option value="Coffee (green beans)">Coffee (green beans)</option>
-                  <option value="Cocoa">Cocoa</option>
-                  <option value="Tea">Tea</option>
-                  <option value="Vanilla">Vanilla</option>
-                  <option value="Sugarcane">Sugarcane</option>
-                </optgroup>
-                <optgroup label="2. Fresh Fruits">
-                  <option value="Banana">Banana</option>
-                  <option value="Pineapple">Pineapple</option>
-                  <option value="Mango">Mango</option>
-                  <option value="Avocado">Avocado</option>
-                  <option value="Passion Fruit">Passion Fruit</option>
-                  <option value="Papaya">Papaya</option>
-                  <option value="Watermelon">Watermelon</option>
-                  <option value="Lemon">Lemon</option>
-                  <option value="Lime">Lime</option>
-                  <option value="Orange">Orange</option>
-                  <option value="Guava">Guava</option>
-                  <option value="Jackfruit">Jackfruit</option>
-                  <option value="Dragon Fruit">Dragon Fruit</option>
-                </optgroup>
-                <optgroup label="3. Fresh Vegetables">
-                  <option value="Tomato">Tomato</option>
-                  <option value="Onion">Onion</option>
-                  <option value="Garlic">Garlic</option>
-                  <option value="Cabbage">Cabbage</option>
-                  <option value="Carrot">Carrot</option>
-                  <option value="Cucumber">Cucumber</option>
-                  <option value="Eggplant">Eggplant</option>
-                  <option value="Bell Pepper">Bell Pepper</option>
-                  <option value="Chili Pepper">Chili Pepper</option>
-                  <option value="Zucchini">Zucchini</option>
-                </optgroup>
-                <optgroup label="4. Fresh Legumes (Pulses)">
-                  <option value="Green Beans">Green Beans</option>
-                  <option value="Peas">Peas</option>
-                  <option value="Cowpeas">Cowpeas</option>
-                  <option value="Chickpea">Chickpea</option>
-                  <option value="Lentil">Lentil</option>
-                  <option value="Pigeon Pea">Pigeon Pea</option>
-                </optgroup>
-                <optgroup label="5. Root Crops (Fresh)">
-                  <option value="Cassava">Cassava</option>
-                  <option value="Sweet Potato">Sweet Potato</option>
-                  <option value="Yam">Yam</option>
-                  <option value="Ginger">Ginger</option>
-                  <option value="Turmeric">Turmeric</option>
-                </optgroup>
-                <optgroup label="6. Fresh Herbs &amp; Spices">
-                  <option value="Basil">Basil</option>
-                  <option value="Mint">Mint</option>
-                  <option value="Coriander">Coriander</option>
-                  <option value="Parsley">Parsley</option>
-                  <option value="Rosemary">Rosemary</option>
-                  <option value="Thyme">Thyme</option>
-                  <option value="Chili Pepper">Chili Pepper</option>
-                </optgroup>
-                <optgroup label="7. Nuts &amp; Oil Crops">
-                  <option value="Macadamia">Macadamia</option>
-                  <option value="Cashew">Cashew</option>
-                  <option value="Groundnut">Groundnut</option>
-                  <option value="Sesame">Sesame</option>
-                  <option value="Sunflower Seed">Sunflower Seed</option>
-                </optgroup>
-              </select>
-            </label>
-            <label>Other Product (if applicable)<input name="other_product" type="text" placeholder="Specify other product" /></label>
-            <label>Requested Quantity<input name="quantity" type="text" placeholder="e.g. 1 x 40ft, 2 tons, 500 kg" /></label>
-            <label>Preferred Packaging
-              <select name="packaging">
-                <option value="">Select packaging</option>
-                <option>60 kg jute bags</option>
-                <option>GrainPro-lined bags</option>
-                <option>4-10 kg ventilated cartons</option>
-                <option>2-8 kg produce boxes</option>
-                <option>25 kg PP bags</option>
-                <option>50 kg PP bags</option>
-                <option>Bulk</option>
-                <option>Retail packs</option>
-              </select>
-            </label>
-
-            <label>Destination Port<input name="port" type="text" placeholder="e.g. Mombasa, Rotterdam, Jebel Ali" /></label>
-            <label>Container Type
-              <select name="container">
-                <option value="">Select container</option>
-                <option>20ft Dry</option>
-                <option>40ft Dry</option>
-                <option>40ft High Cube</option>
-                <option>20ft Reefer</option>
-                <option>40ft Reefer</option>
-                <option>Bulk</option>
-              </select>
-            </label>
-
-            <label class="full">Additional Details / Message<textarea name="message" rows="4" placeholder="Any special handling, certifications required, or timeline"></textarea></label>
-            <button type="submit" class="btn btn-primary full">Continue to Send</button>
-          </form>
+            <div class="contact-faq-mini">
+              <h4>Common Questions</h4>
+              <p><strong>Minimum order?</strong> We support both full container and consolidated shipments.</p>
+              <p><strong>Can I request samples?</strong> Yes, mention sample requests in your enquiry and we will arrange next steps.</p>
+            </div>
+          </aside>
         </div>
-        <section class="quote-steps reveal" aria-label="Quotation process steps">
-          <h3>What Happens After You Submit</h3>
-          <div class="quote-steps-grid">
-            ${steps
-              .map(
-                (step) => `
-              <article class="quote-step-card">
-                <span class="step-pill">${step[0]}</span>
-                <h4>${step[1]}</h4>
-                <p>${step[2]}</p>
-              </article>
-            `
-              )
-              .join("")}
           </div>
-        </section>
-      </div>
     </section>
   `;
 }

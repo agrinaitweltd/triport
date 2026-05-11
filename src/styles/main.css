@@ -1352,6 +1352,180 @@ main {
   background: #fff;
 }
 
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.9fr;
+  gap: 24px;
+  align-items: start;
+}
+
+.contact-system-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.contact-system-form .form-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.contact-system-form .form-group {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+  color: #21302a;
+}
+
+.contact-system-form .full {
+  width: 100%;
+}
+
+.biz-type-group {
+  border: 1px solid #d6e3cf;
+  border-radius: 12px;
+  padding: 14px;
+  background: #f8fbf6;
+}
+
+.biz-type-label {
+  margin-bottom: 2px;
+}
+
+.biz-type-hint {
+  margin: 0 0 10px;
+  color: #5d6962;
+  font-size: 0.9rem;
+}
+
+.biz-type-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.biz-card {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #cfddc7;
+  border-radius: 10px;
+  padding: 10px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.biz-card input {
+  margin: 0;
+}
+
+.biz-card-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #2a3d33;
+}
+
+.conditional-fields {
+  border: 1px solid #d8e5d1;
+  border-radius: 12px;
+  padding: 14px;
+  background: #fbfdf9;
+}
+
+.conditional-header {
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: #27432c;
+}
+
+.product-picker {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.contact-info-panel {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+  padding: 20px;
+  position: sticky;
+  top: 100px;
+}
+
+.contact-info-panel h3 {
+  margin: 0;
+  color: #1f3424;
+}
+
+.contact-info-panel > p {
+  margin: 10px 0 16px;
+  color: #526157;
+  line-height: 1.6;
+}
+
+.contact-info-list {
+  display: grid;
+  gap: 12px;
+}
+
+.contact-info-item {
+  border: 1px solid #d7e6d0;
+  border-radius: 10px;
+  padding: 12px;
+  background: #f9fcf7;
+}
+
+.contact-info-item h4 {
+  margin: 0 0 4px;
+  font-size: 0.9rem;
+  color: #27432c;
+}
+
+.contact-info-item p {
+  margin: 0;
+  color: #49584f;
+  line-height: 1.5;
+}
+
+.contact-faq-mini {
+  margin-top: 14px;
+  border-top: 1px solid #dce9d5;
+  padding-top: 14px;
+}
+
+.contact-faq-mini h4 {
+  margin: 0 0 8px;
+  color: #234528;
+}
+
+.contact-faq-mini p {
+  margin: 0 0 8px;
+  color: #506055;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 1040px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-info-panel {
+    position: static;
+  }
+}
+
+@media (max-width: 780px) {
+  .contact-system-form .form-row,
+  .product-picker,
+  .biz-type-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Modal choice overlay */
 .choice-overlay {
   position: fixed;
