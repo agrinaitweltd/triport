@@ -518,16 +518,86 @@ export function quoteSection(): string {
                 <label class="biz-type-label">What best describes you? *</label>
                 <p class="biz-type-hint">We will tailor your enquiry fields to your business profile.</p>
                 <div class="biz-type-grid" id="bizTypeGrid">
-                  <label class="biz-card"><input type="radio" name="businessType" value="farmer" required /><span class="biz-card-title">Farmer / Producer</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="cooperative" /><span class="biz-card-title">Farming Cooperative</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="wholesale" /><span class="biz-card-title">Wholesale / Distributor</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="importer" /><span class="biz-card-title">Importer / Buyer</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="exporter" /><span class="biz-card-title">International Exporter</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="retailer" /><span class="biz-card-title">Retailer / Food Service</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="manufacturer" /><span class="biz-card-title">Food Manufacturer</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="trader" /><span class="biz-card-title">Commodity Trader</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="logistics" /><span class="biz-card-title">Freight / Logistics</span></label>
-                  <label class="biz-card"><input type="radio" name="businessType" value="other" /><span class="biz-card-title">Other / General</span></label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="farmer" required />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a7 7 0 0 1 7 7c0 4-3.5 8-7 11-3.5-3-7-7-7-11a7 7 0 0 1 7-7z"/><circle cx="12" cy="10" r="2.2"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Farmer / Producer</span>
+                      <span class="biz-card-sub">I grow produce &amp; want to supply Kabalega</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="cooperative" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="8" r="3"/><circle cx="17" cy="10" r="2.5"/><path d="M3 20c0-3.3 2.9-6 6.5-6S16 16.7 16 20"/><path d="M20 20c0-2.2-1.3-4-3.2-5"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Farming Cooperative</span>
+                      <span class="biz-card-sub">Group of farmers seeking an export partner</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="wholesale" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><path d="M12 12v4"/><path d="M10 14h4"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Wholesale / Distributor</span>
+                      <span class="biz-card-sub">Bulk buyer distributing to other businesses</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="importer" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5"/><path d="m5 12 7-7 7 7"/><path d="M4 20h16"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Import Buyer</span>
+                      <span class="biz-card-sub">Buying produce directly for operations</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="exporter" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14"/><path d="m19 12-7 7-7-7"/><path d="M4 4h16"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">International Exporter</span>
+                      <span class="biz-card-sub">Moving produce to international markets</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="retailer" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M8 10a4 4 0 0 0 8 0"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Retailer / Food Service</span>
+                      <span class="biz-card-sub">Supermarket, restaurant, hotel, catering</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="manufacturer" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20V11l5-3v3l5-3v3l5-3v12z"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Food Manufacturer</span>
+                      <span class="biz-card-sub">Processing raw agricultural products</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="trader" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v4H4z"/><path d="M4 10h16v4H4z"/><path d="M4 16h16v4H4z"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Commodity Trader / Broker</span>
+                      <span class="biz-card-sub">Trading agricultural commodities on markets</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="logistics" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Freight / Logistics</span>
+                      <span class="biz-card-sub">Looking to partner on shipping &amp; logistics</span>
+                    </span>
+                  </label>
+                  <label class="biz-card">
+                    <input type="radio" name="businessType" value="other" />
+                    <span class="biz-card-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2.5 2.5"/></svg></span>
+                    <span>
+                      <span class="biz-card-title">Other / General</span>
+                      <span class="biz-card-sub">Something else — just get in touch</span>
+                    </span>
+                  </label>
                 </div>
               </div>
 
@@ -799,30 +869,52 @@ export function quoteSection(): string {
           </div>
 
           <aside class="contact-info-panel">
-            <h3>Triport Agro International Limited</h3>
-            <p>Uganda-based exporters of premium specialty and commercial produce, serving importers and food businesses worldwide.</p>
+            <span class="section-label contact-panel-label">Our Details</span>
+            <h3>Kabalega Coffee Establishment</h3>
+            <p>Uganda-based exporters of premium specialty and commercial coffee, serving importers and roasters worldwide.</p>
             <div class="contact-info-list">
               <div class="contact-info-item">
-                <h4>Email</h4>
-                <p>triportago@gmail.com</p>
+                <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg></div>
+                <div>
+                  <h4>Office Location</h4>
+                  <p>Uganda<br />(Registered Office - Details available on request)</p>
+                </div>
               </div>
               <div class="contact-info-item">
-                <h4>Phone / WhatsApp</h4>
-                <p>+256 780 391916</p>
+                <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></div>
+                <div>
+                  <h4>Email</h4>
+                  <p>triportago@gmail.com</p>
+                </div>
               </div>
               <div class="contact-info-item">
-                <h4>Business Hours</h4>
-                <p>Monday - Friday: 9:00am - 5:30pm (EAT)</p>
+                <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+                <div>
+                  <h4>Phone / WhatsApp</h4>
+                  <p>+256 780 391916</p>
+                </div>
+              </div>
+              <div class="contact-info-item">
+                <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+                <div>
+                  <h4>Business Hours</h4>
+                  <p>Monday - Friday: 9:00am - 5:30pm (EAT)</p>
+                </div>
               </div>
             </div>
             <div class="contact-faq-mini">
-              <h4>Common Questions</h4>
-              <p><strong>Minimum order?</strong> We support both full container and consolidated shipments.</p>
-              <p><strong>Can I request samples?</strong> Yes, mention sample requests in your enquiry and we will arrange next steps.</p>
+              <h4>East Africa Operations</h4>
+              <div class="contact-info-item east-africa-card">
+                <div class="contact-info-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a14.5 14.5 0 0 0 0 18a14.5 14.5 0 0 0 0-18"/><path d="M3 12h18"/></svg></div>
+                <div>
+                  <h4>Head Office</h4>
+                  <p>Sourcing &amp; Operations Team<br />Uganda, East Africa<br />(Available for inquiries)</p>
+                </div>
+              </div>
             </div>
           </aside>
         </div>
-          </div>
+      </div>
     </section>
   `;
 }

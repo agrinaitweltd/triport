@@ -1354,26 +1354,26 @@ main {
 
 .contact-grid {
   display: grid;
-  grid-template-columns: 1.4fr 0.9fr;
-  gap: 24px;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 30px;
   align-items: start;
 }
 
 .contact-system-form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 .contact-system-form .form-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 18px;
 }
 
 .contact-system-form .form-group {
   display: grid;
-  gap: 8px;
+  gap: 10px;
   font-weight: 600;
   color: #21302a;
 }
@@ -1383,10 +1383,10 @@ main {
 }
 
 .biz-type-group {
-  border: 1px solid #d6e3cf;
-  border-radius: 12px;
-  padding: 14px;
-  background: #f8fbf6;
+  border: 1px solid #d8e3d3;
+  border-radius: 14px;
+  padding: 18px;
+  background: #fafdf8;
 }
 
 .biz-type-label {
@@ -1401,35 +1401,63 @@ main {
 
 .biz-type-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
 }
 
 .biz-card {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid #cfddc7;
-  border-radius: 10px;
-  padding: 10px;
+  align-items: flex-start;
+  gap: 10px;
+  border: 1px solid #d7e3d1;
+  border-radius: 14px;
+  padding: 14px 12px;
   background: #fff;
   cursor: pointer;
+  min-height: 118px;
+  box-shadow: 0 1px 0 rgba(16, 24, 14, 0.02);
 }
 
 .biz-card input {
   margin: 0;
+  margin-top: 3px;
+}
+
+.biz-card-icon {
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green-700);
+  flex-shrink: 0;
+}
+
+.biz-card-icon svg {
+  width: 22px;
+  height: 22px;
 }
 
 .biz-card-title {
-  font-size: 0.88rem;
+  display: block;
+  font-size: 0.92rem;
   font-weight: 600;
-  color: #2a3d33;
+  color: #20262b;
+  line-height: 1.32;
+}
+
+.biz-card-sub {
+  display: block;
+  margin-top: 4px;
+  color: #7a7d79;
+  font-size: 0.78rem;
+  line-height: 1.55;
 }
 
 .conditional-fields {
   border: 1px solid #d8e5d1;
-  border-radius: 12px;
-  padding: 14px;
+  border-radius: 14px;
+  padding: 16px;
   background: #fbfdf9;
 }
 
@@ -1442,70 +1470,109 @@ main {
 .product-picker {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .contact-info-panel {
-  border: 1px solid var(--line);
-  border-radius: 16px;
+  border: 1px solid #dce5da;
+  border-radius: 18px;
   background: #fff;
   box-shadow: var(--shadow-soft);
-  padding: 20px;
+  padding: 22px;
   position: sticky;
   top: 100px;
 }
 
+.contact-panel-label {
+  margin-bottom: 6px;
+}
+
 .contact-info-panel h3 {
   margin: 0;
-  color: #1f3424;
+  color: #1b1f23;
+  font-size: 2rem;
+  line-height: 1.1;
 }
 
 .contact-info-panel > p {
-  margin: 10px 0 16px;
-  color: #526157;
-  line-height: 1.6;
+  margin: 10px 0 20px;
+  color: #68726d;
+  line-height: 1.55;
+  font-size: 1.05rem;
 }
 
 .contact-info-list {
   display: grid;
-  gap: 12px;
+  gap: 14px;
 }
 
 .contact-info-item {
-  border: 1px solid #d7e6d0;
-  border-radius: 10px;
-  padding: 12px;
-  background: #f9fcf7;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+.contact-info-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #e7f4ea;
+  color: var(--green-700);
+  border: 1px solid #cde8d2;
+  flex-shrink: 0;
+}
+
+.contact-info-icon svg {
+  width: 20px;
+  height: 20px;
 }
 
 .contact-info-item h4 {
   margin: 0 0 4px;
   font-size: 0.9rem;
-  color: #27432c;
+  color: #8c8f8d;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .contact-info-item p {
   margin: 0;
-  color: #49584f;
-  line-height: 1.5;
+  color: #5f665f;
+  line-height: 1.55;
+  font-size: 1rem;
 }
 
 .contact-faq-mini {
-  margin-top: 14px;
-  border-top: 1px solid #dce9d5;
-  padding-top: 14px;
+  margin-top: 18px;
+  border: 1px solid #d7e6d0;
+  border-radius: 14px;
+  padding: 16px;
+  background: #f8fbf6;
 }
 
 .contact-faq-mini h4 {
-  margin: 0 0 8px;
-  color: #234528;
+  margin: 0 0 14px;
+  color: #6c706d;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
 }
 
-.contact-faq-mini p {
-  margin: 0 0 8px;
-  color: #506055;
-  font-size: 0.9rem;
-  line-height: 1.55;
+.east-africa-card {
+  padding: 0;
+  background: transparent;
+}
+
+.east-africa-card .contact-info-icon {
+  background: #e7f4ea;
 }
 
 @media (max-width: 1040px) {
@@ -1523,6 +1590,10 @@ main {
   .product-picker,
   .biz-type-grid {
     grid-template-columns: 1fr;
+  }
+
+  .contact-info-panel h3 {
+    font-size: 1.65rem;
   }
 }
 
