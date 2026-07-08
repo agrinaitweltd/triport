@@ -77,19 +77,17 @@ He works closely with the leadership team to explore new export destinations, pr
   {
     slug: "oliver",
     name: "Oliver Alinaitwe",
-    role: "Chief Information Officer (CIO)",
+    role: "Strategic Partner",
     qualifications: "Studying Information Technology and Business Administration, City of London Academy Sixth Form",
     image: "/team-oliver.png",
-    bio: `Oliver Alinaitwe oversees all technology and information systems at Triport Agro, ensuring the company's digital infrastructure supports its growing international operations. Currently advancing his studies in IT and Business Administration, he brings a forward-thinking approach to digital transformation.
+    bio: `Oliver Alinaitwe is a Strategic Partner at Triport Agro International Limited and the founder of <a href="https://www.axisagro.co.uk" target="_blank" rel="noopener" class="team-modal-link">Axis Agro International Limited</a>, a UK-based import and export company focused on connecting quality agricultural products with reliable international markets.
 
-Beyond his role at Triport Agro, Oliver is the Founder and Managing Director of <a href="https://www.kavotech.uk" target="_blank" rel="noopener" class="team-modal-link">Kavo Technologies</a> — the company behind the design, development, and digital systems powering Triport Agro's online presence and internal platforms. Kavo Technologies specialises in building modern websites, brand identities, and business systems for growing organisations.
-
-He is responsible for the company's online presence, internal systems, data management, and technology strategy to keep Triport Agro competitive in the modern agricultural export landscape.`,
+Through Axis Agro International Limited, Oliver supports Triport Agro's international partnerships, buyer relationships, and market access, helping strengthen the company's presence in the UK and wider global trade network.`,
     responsibilities: [
-      "Manages the company's technology infrastructure, website, and digital platforms",
-      "Implements systems for order tracking, data management, and operational efficiency",
-      "Drives digital strategy and innovation to support business growth"
+      "Builds strategic partnerships with buyers, importers, and trade partners",
+      "Supports UK market access and international export opportunities",
+      "Connects Triport Agro with commercial networks through Axis Agro International Limited"
     ],
-    quote: "Chief Information Officer accountable for technology strategy, digital infrastructure, and innovation at Triport Agro International Limited."
+    quote: "Strategic Partner supporting Triport Agro's international trade relationships and market growth through Axis Agro International Limited."
   }
 ];

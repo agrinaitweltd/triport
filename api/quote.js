@@ -1,5 +1,6 @@
 const ADMIN_EMAIL = process.env.QUOTE_ADMIN_EMAIL || "triportagro@gmail.com";
 const FROM_EMAIL = process.env.QUOTE_FROM_EMAIL || "no-reply@triportagro.com";
+const FALLBACK_FROM_EMAIL = process.env.QUOTE_FALLBACK_FROM_EMAIL || "onboarding@resend.dev";
 const TEST_RECAPTCHA_SECRET_KEY = "6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe";
 
 function escapeHtml(input) {
@@ -64,24 +65,40 @@ async function sendResendEmail({ to, subject, html, replyTo }) {
     throw new Error("Missing RESEND_API_KEY environment variable");
   }
 
-  const response = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      from: `Triport Agro <${FROM_EMAIL}>`,
-      to: Array.isArray(to) ? to : [to],
-      subject,
-      html,
-      reply_to: replyTo
-    })
-  });
+  const trySend = async (fromEmail) => {
+    const response = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        from: `Triport Agro <${fromEmail}>`,
+        to: Array.isArray(to) ? to : [to],
+        subject,
+        html,
+        reply_to: replyTo
+      })
+    });
 
-  if (!response.ok) {
-    const body = await response.text();
-    throw new Error(`Resend request failed: ${body}`);
+    if (!response.ok) {
+      const body = await response.text();
+      throw new Error(`Resend request failed (${response.status}): ${body}`);
+    }
+  };
+
+  try {
+    await trySend(FROM_EMAIL);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown Resend error";
+    const looksLikeSenderIssue = /(from|sender|domain|verify|verified|authenticate|not allowed)/i.test(message);
+
+    if (looksLikeSenderIssue && FROM_EMAIL !== FALLBACK_FROM_EMAIL) {
+      await trySend(FALLBACK_FROM_EMAIL);
+      return;
+    }
+
+    throw error;
   }
 }
 
