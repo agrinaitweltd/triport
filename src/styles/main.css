@@ -189,9 +189,9 @@ a {
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  border-radius: 12px;
+  border-radius: 999px;
   padding: 12px 26px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  transition: transform var(--transition-base), box-shadow var(--transition-base), filter var(--transition-base);
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 2px 8px rgba(30, 107, 42, 0.25);
 }
@@ -2359,7 +2359,7 @@ main {
   transition: color 180ms ease, transform 180ms ease;
 }
 
-.footer-grid a:hover { color: #ffffff; transform: translateX(4px); }
+.footer-grid a:hover { color: #ffffff; transform: translateX(4px); transition: color var(--transition-base), transform var(--transition-base); }
 
 .footer-note { display: none; }
 
