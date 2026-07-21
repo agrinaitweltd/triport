@@ -78,11 +78,11 @@ He works closely with the leadership team to explore new export destinations, pr
     slug: "oliver",
     name: "Oliver Alinaitwe",
     role: "Strategic Partner",
-    qualifications: "Studying Information Technology and Business Administration, City of London Academy Sixth Form",
+    qualifications: "",
     image: "/team-oliver.png",
-    bio: `Oliver Alinaitwe is a Strategic Partner at Triport Agro International Limited and the founder of <a href="https://www.axisagro.co.uk" target="_blank" rel="noopener" class="team-modal-link">Axis Agro International Limited</a>, a UK-based import and export company focused on connecting quality agricultural products with reliable international markets.
+    bio: `Oliver Alinaitwe is a Strategic Partner at Triport Agro International Limited and the founder of <a href="https://www.axisagro.co.uk" target="_blank" rel="noopener" class="team-modal-link">Axis Agro International Limited</a>, a UK-based import and export company that supplies businesses and traders globally.
 
-Through Axis Agro International Limited, Oliver supports Triport Agro's international partnerships, buyer relationships, and market access, helping strengthen the company's presence in the UK and wider global trade network.`,
+Through Axis Agro International Limited, Oliver leverages global supply networks while Triport Agro supplies and sources quality agricultural products for these partners, strengthening international trade relationships and market access.`,
     responsibilities: [
       "Builds strategic partnerships with buyers, importers, and trade partners",
       "Supports UK market access and international export opportunities",
